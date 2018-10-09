@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Kodchasan" rel="stylesheet">
+
+<style>
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+header{
+	width: 100%;
+	height: 20%;
+	background-color: #e0ebeb;
+}
+
+#car{
+  float: left;
+  width: 150px;
+  height: 150px;
+}
+
+header h1{
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
+
+.container{
+	height: 80%;
+	width: 100%;
+	overflow:hidden;
+	font-family: 'Kodchasan', sans-serif;
+}
+
+.menu{
+	float:left;
+	width: 20%;
+	height: 100%;
+	background-color: white;
+}
+
+.content-container{
+	width: 80%;
+	height: 100%;
+	background-color: #eff5f5;
+	overflow: hidden;
+}
+
+.menu-element{
+	border-width: 0 0 1px 0;
+	border-style: solid;
+	width: 100%;
+	line-height: initial;
+	background-color: #b0cfcf;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.menu-element:hover{
+	color: #619e9e;
+	font-size: 24px;
+}
+
+.menu-element span{
+	position: relative;
+	  top: 50%;
+	  transform: translateY(-50%);
+}
+
+h1 {
+	padding: 40px;
+	text-align: center;
+	font-family: 'Kodchasan', sans-serif;
+}
+
+#welcome{
+  	background:none!important;
+		color:inherit;
+		border:none;
+		padding:0!important;
+		border-bottom:1px solid #444;
+		cursor: pointer;
+		font-family: 'Kodchasan', sans-serif;
+		float: right;
+		padding-right: 10px;
+
+}
+
+#map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 75%;  /* The width is the width of the web page */
+			 }
+
+
+</style>
+</head>
+
+<body>
+	<header>
+		<button id="welcome">Welcome back, Boris</button>
+		<img id="car" src="img\car.png"  alt="TransportAI-Logo" width="130px" height="130px">
+
+		<h1>Transport AI<h1>
+	</header>
+
+	<div class="container">
+		<div class="menu">
+			<div class="menu-element" onclick="track()"><span>Track</span></div>
+			<div class="menu-element" onclick="status()"><span>Status</span></div>
+			<div class="menu-element" onclick="account()"><span>Account</span></div>
+			<div class="menu-element" onclick="security()"><span>Security</span></div>
+			<div class="menu-element" onclick="settings()"><span>Settings</span></div>
+			<div class="menu-element" onclick="logs()"><span>Logs</span></div>
+		</div>
+
+		<div class="content-container">
+			<div id="map"></div>
+		     <script>
+		 // Initialize and add the map
+		 function initMap() {
+		   // The location of CIT
+		   var cit = {lat: 51.88640744, lng: -8.53339883};
+		   // The map, centered at CIT
+		   var map = new google.maps.Map(
+		       document.getElementById('map'), {zoom: 15, center: cit});
+		   // The marker, positioned at Uluru
+		   var marker = new google.maps.Marker({position: cit, map: map});
+		 }
+		     </script>
+				 <!-- API KEY: AIzaSyC2aVBxSbYBYEkMQlKyKzFfYbzll03GN2E-->
+
+			<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2aVBxSbYBYEkMQlKyKzFfYbzll03GN2E&callback=initMap">
+			</script>
+		</div>
+	</div>
+
+
+	<footer>
+
+	</footer>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+	$(".menu-element").css("height", (100 /  $(".menu-element").length) + "%");
+
+	function account(){
+		console.log("acc");
+	}
+
+	function track(){
+		$(".content-container").show("#map");
+	}
+	function status(){
+		$(".content-container").hide("#map");
+	}
+	function security(){}
+	function settings(){}
+	function logs(){}
+
+</script>
