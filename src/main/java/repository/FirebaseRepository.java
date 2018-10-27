@@ -21,14 +21,16 @@ import model.UserModel;
 public class FirebaseRepository implements Repository {
 
 	private UserModel user;
+	private ArrayList<UserModel> users;
+	private String userRef = "/USERS";
+	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+	
+	private FutureTask<Void> future = new FutureTask<Void>(() -> null);
+	private ExecutorService ex = Executors.newFixedThreadPool(1);
 	
 	@Override
 	public User getUserByUsername(String username) {
-		DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("/USERS");
-		FutureTask<Void> future = new FutureTask<Void>(() -> null);
-		ExecutorService ex = Executors.newFixedThreadPool(1);
-		
-		ref.child("/" + username).addValueEventListener(new ValueEventListener() {
+		ref.child(userRef).child("/" + username).addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				user = snapshot.getValue(UserModel.class);
@@ -50,6 +52,8 @@ public class FirebaseRepository implements Repository {
 				.authorities(authorities)
 				.build();
 		
+		user = null;
+		
 		return (User) userDetails;
 	}
 	
@@ -57,5 +61,31 @@ public class FirebaseRepository implements Repository {
 		ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		s.forEach(e -> authorities.add(new SimpleGrantedAuthority("ROLE_" + e)));
 		return authorities;
+	}
+
+	@Override
+	public ArrayList<UserModel> getUsersList() {
+		ref.child(userRef).addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				users = new ArrayList<UserModel>();
+				snapshot.getChildren().forEach(i -> users.add(i.getValue(UserModel.class)));
+				ex.execute(future);
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {System.out.println("Query is Cancelled");}
+		});
+		
+		try {
+			future.get();
+		} catch (Throwable e) {System.out.println(e);}
+		
+		return users;
+	}
+
+	@Override
+	public void addUser(UserModel model) {
+		ref.child(userRef).child(model.getUsername()).setValueAsync(model);
 	}
 }

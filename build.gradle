@@ -32,6 +32,7 @@ dependencies {
 	testImplementation('org.springframework.security:spring-security-test')
 	
 	implementation 'com.google.firebase:firebase-admin:6.5.0'
-	compile group: 'org.slf4j', name:'slf4j-api', version: '1.7.2'
-	
+	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
+	compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.10.RELEASE'
+
 }

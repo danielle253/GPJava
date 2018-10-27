@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head xmlns="http://www.thymeleaf.org">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css?family=Kodchasan" rel="stylesheet">
 
@@ -103,7 +103,7 @@ h1 {
 
 <body>
 	<header>
-		<button id="welcome">Welcome back, Boris</button>
+		<h2 id="welcomde" th:text="${name}"> ></h2>
 		<img id="car" src="img\car.png"  alt="TransportAI-Logo" width="130px" height="130px">
 
 		<h1>Transport AI<h1>

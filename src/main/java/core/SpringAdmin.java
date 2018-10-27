@@ -11,7 +11,5 @@ import spring.web.test.Tester;
 public class SpringAdmin {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
-		
-		new Tester();
 	}
 }

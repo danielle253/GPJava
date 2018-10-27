@@ -23,9 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
  	public void configure(WebSecurity web) throws Exception {
- 		/*web.ignoring()
+ 		//web.ignoring()
  		// Spring Security should completely ignore URLs starting with /resources/
- 				.antMatchers("/**");*/
+ 			//	.antMatchers("/**");
  	}
 
  	@Override
@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
  		http
  			.csrf().disable()	
  			.formLogin()
-	 			.loginPage("/login")
+	 			.loginPage("/login.html")
 	 			.permitAll()
  				.and()
  			.authorizeRequests().antMatchers("/admin").hasRole("ADMIN");

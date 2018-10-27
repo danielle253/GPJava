@@ -29,7 +29,6 @@ public class FirebaseConfig {
 	
 	@PostConstruct
 	public void init() {
-		System.out.println("HELLO INNITTT");
 		try {
 			FileInputStream inp = new FileInputStream(
 					System.getProperty("user.dir") + firebaseCredentialsPath);
