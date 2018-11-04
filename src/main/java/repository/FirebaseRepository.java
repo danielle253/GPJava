@@ -15,22 +15,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import model.Car;
 import model.UserModel;
 
 
 public class FirebaseRepository implements Repository {
-
-	private UserModel user;
-	private ArrayList<UserModel> users;
-	private String userRef = "/USERS";
-	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 	
+	public static String USERS_REF = "/USERS", CARS_REF = "/COORDS";
+	
+	private UserModel user;
+	private ArrayList list;
+	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 	private FutureTask<Void> future = new FutureTask<Void>(() -> null);
 	private ExecutorService ex = Executors.newFixedThreadPool(1);
 	
 	@Override
 	public User getUserByUsername(String username) {
-		ref.child(userRef).child("/" + username).addValueEventListener(new ValueEventListener() {
+		ref.child(USERS_REF).child("/" + username).addValueEventListener(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				user = snapshot.getValue(UserModel.class);
@@ -64,28 +65,32 @@ public class FirebaseRepository implements Repository {
 	}
 
 	@Override
-	public ArrayList<UserModel> getUsersList() {
-		ref.child(userRef).addValueEventListener(new ValueEventListener() {
+	public void addUser(UserModel model) {
+		ref.child(USERS_REF).child(model.getUsername()).setValueAsync(model);
+	}
+
+	@Override
+	public <T> ArrayList<T> getObjectList(String reference, Class<T> c) {
+		ref.child(reference).addValueEventListener(new ValueEventListener() {
+
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				users = new ArrayList<UserModel>();
-				snapshot.getChildren().forEach(i -> users.add(i.getValue(UserModel.class)));
+				list = new ArrayList<T>();
+				snapshot.getChildren().forEach(i -> list.add(i.getValue(c)));
 				ex.execute(future);
 			}
 
 			@Override
-			public void onCancelled(DatabaseError error) {System.out.println("Query is Cancelled");}
-		});
+			public void onCancelled(DatabaseError error) {
+				System.out.println("Query is Cancelled");
+			}
 		
-		try {
-			future.get();
-		} catch (Throwable e) {System.out.println(e);}
+		});	
+			try {
+				future.get();
+			} catch (Throwable e) {System.out.println(e);}
+				
 		
-		return users;
-	}
-
-	@Override
-	public void addUser(UserModel model) {
-		ref.child(userRef).child(model.getUsername()).setValueAsync(model);
+		return list;
 	}
 }

@@ -108,6 +108,11 @@ h1 {
 	display: none;
 }
 
+#map {
+    height: 400px;  /* The height is 400 pixels */
+    width: 75%;  /* The width is the width of the web page */
+}
+
 </style>
 </head>
 
@@ -128,25 +133,30 @@ h1 {
 		</div>
 
 		<div class="content-container">
+			<div id="map">
+			</div>
+			
 			<p><button onclick="sortTable()">Sort</button>
-			<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+				<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 			</p>
 			<table id="myTable">
 				<tr>
-					<th>Username</th>
-					<th>Password</th>
-					<th>Auth</th>
+					<th>Car Serial</th>
+					<th>Latitude</th>
+					<th>Longitude</th>
 				</tr>
-				<tr th:each="user : ${users}" class="item">
-					<div>
-						<td th:text="${user.username}"></td>
-						<td th:text="${user.password}"></td>
-						<td th:each="role : ${user.auth}">
-							<span th:text="${role}"></span>
-						</td>
-					</div>
+				<tr class="item" onclick="placeMarker(this)">
+					<td>43522</td>
+					<td>51.887882</td>
+					<td>-8.534127</td>
+				</tr>
+				<tr th:each="car : ${cars}" class="item" onclick="placeMarker(this)">
+					<td th:text="${car.serial}"></td>
+					<td th:text="${car.latitude}"></td>
+					<td th:text="${car.longitude}"></td>
 				</tr>
 			</table>
+			
 		</div>
 	</div>
 
@@ -157,11 +167,27 @@ h1 {
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2aVBxSbYBYEkMQlKyKzFfYbzll03GN2E&callback=initMap"></script>
 <script>
 	$(".menu-element").css("height", (100 /  $(".menu-element").length) + "%");
 	
-	function account(){
+	function initMap() {
+		var cit = {lat: 51.88640744, lng: -8.53339883};
+		var map = new google.maps.Map(
+		document.getElementById('map'), {zoom: 15, center: cit});
+		//var marker = new google.maps.Marker({position: cit, map: map});
+	}
+	
+	function placeMarker(element){
+		var longitude = parseFloat($(element).find('td').eq(1).text());
+		var latitude = parseFloat($(element).find('td').eq(2).text());
+		var mark = {lat: longitude, lng: latitude};
 		
+		var map = new google.maps.Map(
+			document.getElementById('map'), 
+			{zoom: 15);
+		
+		new google.maps.Marker({position: mark, map: map});
 	}
 
 	function track(){

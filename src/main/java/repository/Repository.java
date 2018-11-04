@@ -9,6 +9,6 @@ import model.UserModel;
 public interface Repository {
 	
 	User getUserByUsername(String username);
-	ArrayList<UserModel> getUsersList();
 	void addUser(UserModel model);
+	<T> ArrayList<T> getObjectList(String ref, Class<T> c);
 }

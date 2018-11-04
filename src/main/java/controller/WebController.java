@@ -13,17 +13,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.Car;
 import model.UserModel;
+import repository.FirebaseRepository;
 import repository.Repository;
 
 @Controller
 @RequestMapping("/")
-public class BoiController {
+public class WebController {
 	
 	@Autowired
 	private Repository repository;
 	
-	BoiController(){
+	WebController(){
 		System.out.println("Controller Ready");
 	}
 	
@@ -55,8 +57,18 @@ public class BoiController {
 			path= "accounts",
 			method= RequestMethod.GET)
 	public String accounts(Authentication auth, Model model) {
-		model.addAttribute("users", repository.getUsersList());
+		model.addAttribute("users", repository.getObjectList(
+				FirebaseRepository.USERS_REF, UserModel.class));
 		return "accounts";
+	}
+	
+	@RequestMapping(
+			path= "map",
+			method= RequestMethod.GET)
+	public String map(Model model) {
+		model.addAttribute("cars", repository.getObjectList(
+				FirebaseRepository.CARS_REF, Car.class));
+		return "map";
 	}
 }
 
