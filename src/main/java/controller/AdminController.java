@@ -20,12 +20,12 @@ import repository.Repository;
 
 @Controller
 @RequestMapping("/")
-public class WebController {
+public class AdminController {
 	
 	@Autowired
 	private Repository repository;
 	
-	WebController(){
+	AdminController(){
 		System.out.println("Controller Ready");
 	}
 	
@@ -35,22 +35,6 @@ public class WebController {
 	public String admin(Authentication auth, Model model) {
 		model.addAttribute("name", "Welcome Back, " + auth.getName());
 		return "admin";
-	}
-	
-	@RequestMapping(
-			path="addUser",
-			method=RequestMethod.GET)
-	@ResponseBody
-	public String addUser(@RequestParam("username") String username,
-			@RequestParam("password") String password,
-			@RequestParam("role") String role) {
-		ArrayList<String> s = new ArrayList<String>();
-		
-		for(String str: role.split(","))
-			s.add(str);
-		
-		repository.addUser(new UserModel(username, password, s));
-		return username;
 	}
 	
 	@RequestMapping(

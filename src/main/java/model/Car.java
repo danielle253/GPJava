@@ -36,6 +36,4 @@ public class Car {
 	public void setSerial(String serial) {
 		this.serial = serial;
 	}
-	
-	
 }

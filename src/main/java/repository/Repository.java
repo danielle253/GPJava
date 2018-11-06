@@ -8,7 +8,11 @@ import model.UserModel;
 
 public interface Repository {
 	
+	//Security Related method
 	User getUserByUsername(String username);
-	void addUser(UserModel model);
+	
+	<T> T getObject(String ref, String child);
+	void add(String ref, String child, Object obj);
 	<T> ArrayList<T> getObjectList(String ref, Class<T> c);
+	void delete(String reference, String child);
 }

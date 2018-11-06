@@ -1,11 +1,5 @@
-/application.properties
-/config/
 /controller/
-/core/
-/firebase/
-/model/
 /repository/
 /service/
-/spring/
-/static/
-/templates/
+/container/
+/model/
