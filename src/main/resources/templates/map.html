@@ -160,7 +160,6 @@ h1 {
 		</div>
 	</div>
 
-
 	<footer>
 
 	</footer>
@@ -182,10 +181,10 @@ h1 {
 		var longitude = parseFloat($(element).find('td').eq(1).text());
 		var latitude = parseFloat($(element).find('td').eq(2).text());
 		var mark = {lat: longitude, lng: latitude};
-		
+		var cit = {lat: 51.88640744, lng: -8.53339883};
 		var map = new google.maps.Map(
 			document.getElementById('map'), 
-			{zoom: 15);
+			{zoom: 15, center: cit});
 		
 		new google.maps.Marker({position: mark, map: map});
 	}
