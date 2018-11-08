@@ -1,0 +1,15 @@
+<tr>
+	<th>Username</th>
+	<th>Password</th>
+	<th>Auth</th>
+</tr>
+<tr th:each="user : ${users}" class="item" onclick="fcs(this)">
+	<div>
+		<td th:text="${user.username}"></td>
+		<td th:text="${user.password}"></td>
+		<td th:each="role : ${user.auth}">
+			<span th:text="${role}"></span>
+		</td>
+	</div>
+</tr>
+

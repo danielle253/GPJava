@@ -1,229 +1,51 @@
-<!DOCTYPE html>
-<html>
-<head xmlns="http://www.thymeleaf.org">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Kodchasan" rel="stylesheet">
 
-<style>
-html, body{
-	width: 100%;
-	height: 100%;
-	margin: 0;
-}
+<p><button onclick="sortTable()">Sort</button>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+</p>
+<table id="myTable"></table>
+<table>
+	<tr >
+		<td><input type="button" onclick="registerate_acc()" value="Registrate"></td>
+		<td><input type="button" onclick="delete_acc()" value="Delete"></td>
+		<td><input type="button" onclick="refresh()" value="Refresh"></td>
+	</tr>
+</table>
 
-header{
-	width: 100%;
-	height: 20%;
-	background-color: #e0ebeb;
-}
-
-#car{
-  float: left;
-  width: 150px;
-  height: 150px;
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-th, td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-tr.item:hover {
-	background-color:#be2edd;
-	color:white;
-}
-
-item{
-}
-
-.container{
-	height: 80%;
-	width: 100%;
-	overflow:hidden;
-	font-family: 'Kodchasan', sans-serif;
-}
-
-.menu{
-	float:left;
-	width: 20%;
-	height: 100%;
-	background-color: white;
-}
-
-.content-container{
-	width: 80%;
-	height: 100%;
-	background-color: #eff5f5;
-	overflow: hidden;
-}
-
-.menu-element{
-	border-width: 0 0 1px 0;
-	border-style: solid;
-	width: 100%;
-	line-height: initial;
-	background-color: #b0cfcf;
-	color: white;
-	font-size: 20px;
-	text-align: center;
-	cursor: pointer;
-}
-
-.menu-element:hover{
-	color: #619e9e;
-	font-size: 24px;
-}
-
-.menu-element span{
-	position: relative;
-	  top: 50%;
-	  transform: translateY(-50%);
-}
-
-h1 {
-	padding: 40px;
-	text-align: center;
-	font-family: 'Kodchasan', sans-serif;
-}
-
-#welcome{
-  	background:none!important;
-		color:inherit;
-		border:none;
-		padding:0!important;
-		border-bottom:1px solid #444;
-		cursor: pointer;
-		font-family: 'Kodchasan', sans-serif;
-		float: right;
-		padding-right: 10px;
-}
-
-.hidden{
-	display: none;
-}
-
-</style>
-</head>
-
-<body>
-	<header>
-		<h1>Transport AI<h1>
-	</header>
-
-
-	<div class="container">
-		<div class="menu">
-			<div class="menu-element" onclick="track()"><span>Track</span></div>
-			<div class="menu-element" onclick="status()"><span>Status</span></div>
-			<div class="menu-element" onclick="account()"><span>Account</span></div>
-			<div class="menu-element" onclick="security()"><span>Security</span></div>
-			<div class="menu-element" onclick="settings()"><span>Settings</span></div>
-			<div class="menu-element" onclick="logs()"><span>Logs</span></div>
-		</div>
-
-		<div class="content-container">
-			<p><button onclick="sortTable()">Sort</button>
-			<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-			</p>
-			<table id="myTable">
-				<tr>
-					<th>Username</th>
-					<th>Password</th>
-					<th>Auth</th>
-				</tr>
-				<tr th:each="user : ${users}" class="item">
-					<div>
-						<td th:text="${user.username}"></td>
-						<td th:text="${user.password}"></td>
-						<td th:each="role : ${user.auth}">
-							<span th:text="${role}"></span>
-						</td>
-					</div>
-				</tr>
-			</table>
-		</div>
-	</div>
-
-
-	<footer>
-
-	</footer>
-</body>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script>
-	$(".menu-element").css("height", (100 /  $(".menu-element").length) + "%");
-	
-	function account(){
-		
+<!--<script type="text/javascript" th:src="@{/js/accounts_management.js}"></script>-->
+<script type="text/javascript">
+	function registerate_acc(){
+		$.ajax({url: "registration",
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
 	}
 
-	function track(){
-		$(".content-container").show("#map");
-	}
-	function status(){
-		$(".content-container").hide("#map");
-	}
-	function security(){}
-	function settings(){}
-	function logs(){}
-	function sortTable() {
-	  var table, rows, switching, i, x, y, shouldSwitch;
-	  table = document.getElementById("myTable");
-	  switching = true;
-	  /*Make a loop that will continue until
-	  no switching has been done:*/
-	  while (switching) {
-	    //start by saying: no switching is done:
-	    switching = false;
-	    rows = table.rows;
-	    /*Loop through all table rows (except the
-	    first, which contains table headers):*/
-	    for (i = 1; i < (rows.length - 1); i++) {
-	      //start by saying there should be no switching:
-	      shouldSwitch = false;
-	      /*Get the two elements you want to compare,
-	      one from current row and one from the next:*/
-	      x = rows[i].getElementsByTagName("TD")[0];
-	      y = rows[i + 1].getElementsByTagName("TD")[0];
-	      //check if the two rows should switch place:
-	      if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-	        //if so, mark as a switch and break the loop:
-	        shouldSwitch = true;
-	        break;
-	      }
-	    }
-	    if (shouldSwitch) {
-	      /*If a switch has been marked, make the switch
-	      and mark that a switch has been done:*/
-	      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-	      switching = true;
-	    }
-	  }
-	}
-	function myFunction() {
-		  var input, filter, table, tr, td, i;
-		  input = document.getElementById("myInput");
-		  filter = input.value.toUpperCase();
-		  table = document.getElementById("myTable");
-		  tr = table.getElementsByTagName("tr");
-		  for (i = 0; i < tr.length; i++) {
-		    td = tr[i].getElementsByTagName("td")[0];
-		    if (td) {
-		      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-		        tr[i].style.display = "";
-		      } else {
-		        tr[i].style.display = "none";
-		      }
-		    }       
-		  }
+	function delete_acc(){
+		if($(".focused").length){
+			$.ajax({url: "/rest/deleteUser?username=" + $(".focused").find('td').eq(0).text(),
+				success: function(result){
+       				refresh();
+    			}
+    		});
+		} else {
+			alert("No User Selected");
 		}
-	
+	}
+
+	function refresh(){
+		$.ajax({url: "table_accounts",
+			success: function(result){
+   				$("#myTable").html(result);
+			}
+    	});
+	}
+
+	function fcs(element){
+		$(".focused").removeClass("focused");
+		element.classList.add("focused");
+	}
+
+	refresh();
 
 </script>

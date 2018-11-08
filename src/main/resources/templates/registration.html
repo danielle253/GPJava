@@ -1,0 +1,45 @@
+<form>
+	<table>
+		<tr>
+			<td><label>Username*</label></td>
+			<td><input type="input" id="username" name="username" placeholder="JohnBlack"></td>
+		</tr>
+		<tr>
+			<td><label>Password*</label></td>
+			<td><input type="password" id="password" name="password" placeholder="***"></td>
+		</tr>
+		<tr>
+			<td><label>Role*</label></td>
+			<td><input type="input" id="role" name="role" placeholder="ADMIN, USER"></td>
+		</tr>
+		<tr>
+			<td><input type="button" name="" value="Back" onclick="back()"></td>
+			<td><input type="button" name="" value="Submit" onclick="newUser()"></td>
+		</tr>
+	</table>
+</form>
+
+
+<script type="text/javascript">
+	function newUser(){
+		var formData = $('form').serialize();
+
+		if(username != null & password != null & role != null){
+			$.ajax({
+				url: "/rest/newUser",
+				type: 'POST',
+				data: formData, 
+				success: function(result){
+					alert("new user has been created!");
+					$('#username').val('');
+					$('#password').val('');
+					$('#role').val('');
+				}
+	    	});
+		}
+	}
+
+	function back(){
+		accounts();
+	}
+</script>

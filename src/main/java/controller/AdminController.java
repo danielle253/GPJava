@@ -40,10 +40,24 @@ public class AdminController {
 	@RequestMapping(
 			path= "accounts",
 			method= RequestMethod.GET)
-	public String accounts(Authentication auth, Model model) {
+	public String accounts() {
+		return "accounts";
+	}
+	
+	@RequestMapping(
+			path= "registration",
+			method= RequestMethod.GET)
+	public String registration() {
+		return "registration.html";
+	}
+	
+	@RequestMapping(
+			path= "table_accounts",
+			method= RequestMethod.GET)
+	public String table_accounts(Model model) {
 		model.addAttribute("users", repository.getObjectList(
 				FirebaseRepository.USERS_REF, UserModel.class));
-		return "accounts";
+		return "table_accounts";
 	}
 	
 	@RequestMapping(

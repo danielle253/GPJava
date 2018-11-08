@@ -41,6 +41,12 @@ public class SpringRestController {
 		return username;
 	}
 	
+	@RequestMapping(path="deleteUser")
+	public String deleteUser(@RequestParam("username") String username) {
+		repository.delete(FirebaseRepository.USERS_REF, username);
+		return username;
+	}
+	
 	@RequestMapping(path="getUser")
 	public User getUser(@RequestParam("username") String username) {
 		return repository.getUserByUsername(username);
