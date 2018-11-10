@@ -2,15 +2,11 @@
 	<table>
 		<tr>
 			<td><label>Username*</label></td>
-			<td><input type="input" id="username" name="username" placeholder="JohnBlack"></td>
+			<td><input type="email" id="email" name="email" placeholder="Email@mail.com"></td>
 		</tr>
 		<tr>
 			<td><label>Password*</label></td>
 			<td><input type="password" id="password" name="password" placeholder="***"></td>
-		</tr>
-		<tr>
-			<td><label>Role*</label></td>
-			<td><input type="input" id="role" name="role" placeholder="ADMIN, USER"></td>
 		</tr>
 		<tr>
 			<td><input type="button" name="" value="Back" onclick="back()"></td>
@@ -24,16 +20,15 @@
 	function newUser(){
 		var formData = $('form').serialize();
 
-		if(username != null & password != null & role != null){
+		if(email != null & password != null){
 			$.ajax({
 				url: "/rest/newUser",
 				type: 'POST',
 				data: formData, 
 				success: function(result){
 					alert("new user has been created!");
-					$('#username').val('');
+					$('#email').val('');
 					$('#password').val('');
-					$('#role').val('');
 				}
 	    	});
 		}

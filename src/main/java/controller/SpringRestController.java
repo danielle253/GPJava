@@ -13,6 +13,8 @@ import model.Car;
 import model.UserModel;
 import repository.FirebaseRepository;
 import repository.Repository;
+import service.AuthenticationService;
+
 
 @RestController
 @RequestMapping("rest")
@@ -21,17 +23,14 @@ public class SpringRestController {
 	@Autowired
 	private Repository repository;
 	
+	@Autowired
+	private AuthenticationService authService;
+	
 	@RequestMapping(path="newUser")
-	public UserModel addUser(@RequestParam("username") String username,
-			@RequestParam("password") String password,
-			@RequestParam("role") String role) {
-		
-		UserModel user = new UserModel(username, password,
-				new ArrayList<String>(Arrays.asList(role.split(","))));
-		
-		repository.add(FirebaseRepository.USERS_REF, user.getUsername(), user);
-		
-		return user;
+	public boolean addUser(@RequestParam("email") String email,
+			@RequestParam("password") String password){
+		authService.createUser(email, password);
+		return true;
 	}
 	
 	@RequestMapping(path="delete")
@@ -41,10 +40,10 @@ public class SpringRestController {
 		return username;
 	}
 	
-	@RequestMapping(path="deleteUser")
-	public String deleteUser(@RequestParam("username") String username) {
-		repository.delete(FirebaseRepository.USERS_REF, username);
-		return username;
+	@RequestMapping(path="deleteUserAccount")
+	public boolean deleteUser(@RequestParam("uid") String uid) {
+		authService.deleteUser(uid);;
+		return true;
 	}
 	
 	@RequestMapping(path="getUser")
@@ -62,5 +61,6 @@ public class SpringRestController {
 			@RequestParam("child") String child) {
 		return repository.getObject(ref, child);
 	}
+	
 	
 }

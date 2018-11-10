@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import repository.FirebaseRepository;
 import repository.Repository;
+import service.FirebaseAuthenticationService;
 import service.FirebaseUserDetailsService;
 
 @Configuration
@@ -42,6 +43,11 @@ public class FirebaseConfig {
 		} catch (Throwable e) {
 			System.out.println(e);
 		}
+	}
+	
+	@Bean
+	public FirebaseAuthenticationService firebaseAuthenticationService() {
+		return new FirebaseAuthenticationService();
 	}
 	
 	@Bean

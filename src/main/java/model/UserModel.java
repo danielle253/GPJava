@@ -2,24 +2,31 @@ package model;
 
 import java.util.ArrayList;
 
-public class UserModel {
-	
-		private String username;
-		private String password;
-		private ArrayList<String> auth;
+public class UserModel extends Entity{
 		
-		private UserModel() {}
+		private double balance;
+		private ArrayList<String> bookings;
 		
-		public UserModel(String username, String password, ArrayList<String> auth) {
-			this.username = username;
-			this.password = password;
-			this.auth = auth;
+		private UserModel () {}
+		
+		public UserModel(ArrayList<String> bookings, double balance) {
+			this.balance = balance;
+			this.bookings = bookings;
 		}
 
-		public String getUsername() {return username;}
+		public double getBalance() {
+			return balance;
+		}
 
-		public String getPassword() {return password;}
+		public void setBalance(double balance) {
+			this.balance = balance;
+		}
 
-		public ArrayList<String> getAuth() {return auth;}
+		public ArrayList<String> getBookings() {
+			return bookings;
+		}
 
+		public void setBookings(ArrayList<String> bookings) {
+			this.bookings = bookings;
+		}
 }

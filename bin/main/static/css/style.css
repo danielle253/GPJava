@@ -1,0 +1,109 @@
+html, body{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+}
+
+header{
+	width: 100%;
+	height: 20%;
+	background-color: #e0ebeb;
+}
+
+#car{
+  float: left;
+  width: 150px;
+  height: 150px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr.item:hover {
+	background-color: #be2edd;
+	color:white;
+}
+
+.focused{
+	background-color: #9b59b6;
+	color:white;
+}
+
+.container{
+	height: 80%;
+	width: 100%;
+	overflow:hidden;
+	font-family: 'Kodchasan', sans-serif;
+}
+
+.menu{
+	float:left;
+	width: 20%;
+	height: 100%;
+	background-color: white;
+}
+
+.content-container{
+	width: 80%;
+	height: 100%;
+	background-color: #eff5f5;
+	overflow: hidden;
+}
+
+.menu-element{
+	border-width: 0 0 1px 0;
+	border-style: solid;
+	width: 100%;
+	line-height: initial;
+	background-color: #b0cfcf;
+	color: white;
+	font-size: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.menu-element:hover{
+	color: #619e9e;
+	font-size: 24px;
+}
+
+.menu-element span{
+	position: relative;
+	  top: 50%;
+	  transform: translateY(-50%);
+}
+
+h1 {
+	padding: 40px;
+	text-align: center;
+	font-family: 'Kodchasan', sans-serif;
+}
+
+#welcome{
+  	background:none!important;
+		color:inherit;
+		border:none;
+		padding:0!important;
+		border-bottom:1px solid #444;
+		cursor: pointer;
+		font-family: 'Kodchasan', sans-serif;
+		float: right;
+		padding-right: 10px;
+}
+
+.hidden{
+	display: none;
+}
+
+#map {
+    height: 400px;
+    width: 75%;
+}

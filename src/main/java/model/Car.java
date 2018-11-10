@@ -1,6 +1,6 @@
 package model;
 
-public class Car {
+public class Car extends Entity{
 	private float longitude;
 	private float latitude;
 	private String serial;

@@ -34,5 +34,6 @@ dependencies {
 	implementation 'com.google.firebase:firebase-admin:6.5.0'
 	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
 	compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.10.RELEASE'
+	implementation 'com.google.firebase:firebase-auth:16.0.5'
 
 }

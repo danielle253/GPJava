@@ -13,26 +13,31 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import model.Admin;
 import model.Car;
+import model.Entity;
 import model.UserModel;
+
 
 
 public class FirebaseRepository implements Repository {
 	
-	public static String USERS_REF = "USERS", CARS_REF = "COORDS";
+	public static String USERS_REF = "USERS", CARS_REF = "COORDS", ADMIN_REF = "ADMIN_USERS";
 	
 	private final Map<String, Class> CLASS_REF = ImmutableMap.<String, Class>builder()
 			.put(USERS_REF, UserModel.class)
 			.put(CARS_REF, Car.class)
+			.put(ADMIN_REF, Admin.class)
 			.build(); 
 	
-	private UserModel user;
+	private Admin user;
 	private ArrayList list;
 	private Object object;
 	
@@ -42,10 +47,10 @@ public class FirebaseRepository implements Repository {
 	@Override
 	public User getUserByUsername(String username) {
 		
-		ref.child(USERS_REF).child("/" + username).addValueEventListener(new ValueEventListener() {
+		ref.child(ADMIN_REF).child(username).addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				user = snapshot.getValue(UserModel.class);
+				user = snapshot.getValue(Admin.class);
 				waiter.respond();
 			}
 
@@ -59,7 +64,7 @@ public class FirebaseRepository implements Repository {
 		user.getAuth().forEach(e -> authorities.add(new SimpleGrantedAuthority("ROLE_" + e)));
 		
 		UserDetails userDetails = User.withUsername(user.getUsername())
-				.password("{noop}" + user.getPassword())
+				.password("{sha256}" + user.getPassword())
 				.authorities(authorities)
 				.build();
 		
@@ -79,14 +84,18 @@ public class FirebaseRepository implements Repository {
 	}
 
 	@Override
-	public <T> ArrayList<T> getObjectList(String reference, Class<T> c) {
+	public <T extends Entity> ArrayList<T> getObjectList(String reference, Class<T> c) {
 		
-		ref.child(reference).addValueEventListener(new ValueEventListener() {
+		ref.child(reference).addListenerForSingleValueEvent(new ValueEventListener() {
 
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				list = new ArrayList<T>();
-				snapshot.getChildren().forEach(i -> list.add(i.getValue(c)));
+				snapshot.getChildren().forEach(i -> {
+					T item = i.getValue(c);
+					item.setKey(i.getKey());
+					list.add(item);
+				});
 				waiter.respond();
 			}
 
@@ -102,13 +111,14 @@ public class FirebaseRepository implements Repository {
 	}
 
 	@Override
-	public <T> T getObject(String reference, String child) {
+	public <T extends Entity> T getObject(String reference, String child) {
 	
 		ref.child(reference).child(child).addListenerForSingleValueEvent(new ValueEventListener() {
 		
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
 				object = snapshot.getValue(CLASS_REF.get(reference));
+				((T) object).setKey(snapshot.getKey());
 				waiter.respond();
 			}
 

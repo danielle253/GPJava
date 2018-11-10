@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 import org.springframework.security.core.userdetails.User;
 
-import model.UserModel;
+import model.Entity;
 
 public interface Repository {
 	
 	//Security Related method
 	User getUserByUsername(String username);
 	
-	<T> T getObject(String ref, String child);
+	<T extends Entity> T getObject(String ref, String child);
 	void add(String ref, String child, Object obj);
-	<T> ArrayList<T> getObjectList(String ref, Class<T> c);
+	<T extends Entity> ArrayList<T> getObjectList(String ref, Class<T> c);
 	void delete(String reference, String child);
 }

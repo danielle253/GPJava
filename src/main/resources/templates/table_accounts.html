@@ -1,14 +1,14 @@
 <tr>
-	<th>Username</th>
-	<th>Password</th>
-	<th>Auth</th>
+	<th>UserID</th>
+	<th>Balance</th>
+	<th>Bookings</th>
 </tr>
 <tr th:each="user : ${users}" class="item" onclick="fcs(this)">
 	<div>
-		<td th:text="${user.username}"></td>
-		<td th:text="${user.password}"></td>
-		<td th:each="role : ${user.auth}">
-			<span th:text="${role}"></span>
+		<td th:text="${user.key}"></td>
+		<td th:text="${user.balance}"></td>
+		<td th:each="booking : ${user.bookings}">
+			<span th:text="${booking}"></span>
 		</td>
 	</div>
 </tr>

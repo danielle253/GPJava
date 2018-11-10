@@ -23,7 +23,7 @@
 
 	function delete_acc(){
 		if($(".focused").length){
-			$.ajax({url: "/rest/deleteUser?username=" + $(".focused").find('td').eq(0).text(),
+			$.ajax({url: "/rest/deleteUserAccount?uid=" + $(".focused").find('td').eq(0).text(),
 				success: function(result){
        				refresh();
     			}
