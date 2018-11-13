@@ -1,0 +1,40 @@
+<form>
+	<table>
+		<tr>
+			<td><label>Username*</label></td>
+			<td><input type="email" id="email" name="email" placeholder="Email@mail.com"></td>
+		</tr>
+		<tr>
+			<td><label>Password*</label></td>
+			<td><input type="password" id="password" name="password" placeholder="***"></td>
+		</tr>
+		<tr>
+			<td><input type="button" name="" value="Back" onclick="back()"></td>
+			<td><input type="button" name="" value="Submit" onclick="newUser()"></td>
+		</tr>
+	</table>
+</form>
+
+
+<script type="text/javascript">
+	function newUser(){
+		var formData = $('form').serialize();
+
+		if(email != null & password != null){
+			$.ajax({
+				url: "/rest/newUser",
+				type: 'POST',
+				data: formData, 
+				success: function(result){
+					alert("new user has been created!");
+					$('#email').val('');
+					$('#password').val('');
+				}
+	    	});
+		}
+	}
+
+	function back(){
+		accounts();
+	}
+</script>

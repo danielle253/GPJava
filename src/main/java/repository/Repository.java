@@ -15,4 +15,6 @@ public interface Repository {
 	void add(String ref, String child, Object obj);
 	<T extends Entity> ArrayList<T> getObjectList(String ref, Class<T> c);
 	void delete(String reference, String child);
+
+	void push(String referece, Object obj);
 }

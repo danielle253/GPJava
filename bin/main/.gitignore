@@ -1,3 +1,7 @@
+/spring/
+/core/
 /service/
+/config/
+/model/
 /controller/
-/templates/
+/repository/

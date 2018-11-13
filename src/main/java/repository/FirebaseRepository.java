@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,11 +24,14 @@ import model.Car;
 import model.Entity;
 import model.UserModel;
 
-
-
 public class FirebaseRepository implements Repository {
 	
-	public static String USERS_REF = "USERS", CARS_REF = "COORDS", ADMIN_REF = "ADMIN_USERS";
+	public static String 
+	USERS_REF = "USERS", 
+	CARS_REF = "COORDS", 
+	ADMIN_REF = "ADMIN_USERS",
+	BOOKING_REF = "BOOKINGS",
+	BOOKING_CONFIRMED_REF = "BOOKINGS_CONFIRMED";
 	
 	private final Map<String, Class> CLASS_REF = ImmutableMap.<String, Class>builder()
 			.put(USERS_REF, UserModel.class)
@@ -76,6 +78,11 @@ public class FirebaseRepository implements Repository {
 	@Override
 	public void add(String referece, String child, Object obj) {
 		ref.child(USERS_REF).child(child).setValueAsync(obj);
+	}
+	
+	@Override
+	public void push(String reference, Object obj) {
+		ref.child(reference).push().setValueAsync(obj);
 	}
 	
 	@Override

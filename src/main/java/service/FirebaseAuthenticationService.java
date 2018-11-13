@@ -2,8 +2,6 @@ package service;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
@@ -17,7 +15,6 @@ import com.google.firebase.internal.NonNull;
 
 import model.UserModel;
 import repository.FirebaseRepository;
-import repository.Repository;
 
 public class FirebaseAuthenticationService implements AuthenticationService{
 	private FirebaseAuth mAuth;
@@ -36,14 +33,17 @@ public class FirebaseAuthenticationService implements AuthenticationService{
 		try {
 			UserRecord userRecord = mAuth.createUser(request);
 			System.out.println("Successfully created new user: " + userRecord.getUid());
-			createDatabaseRef(userRecord.getUid());
+			createDatabaseRef(userRecord);
 		} catch (FirebaseAuthException e) {
 			System.out.println("Failed to create account: " + e);
 		}
 		
 	}
 	
-	private void createDatabaseRef(final String uid) {
+	private void createDatabaseRef(final UserRecord userRecord) {
+		String email = userRecord.getEmail(), 
+				uid = userRecord.getUid();
+		
 		DatabaseReference ref = FirebaseDatabase.getInstance()
 				.getReference().child(FirebaseRepository.USERS_REF);
 		
@@ -51,7 +51,7 @@ public class FirebaseAuthenticationService implements AuthenticationService{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             	if (!dataSnapshot.hasChild(uid))     
-                    ref.child(uid).setValueAsync(new UserModel(new ArrayList<String>(), 0.0));
+                    ref.child(uid).setValueAsync(new UserModel(email, new ArrayList<String>(), 0.0, !userRecord.isDisabled()));
             }
 
             @Override
@@ -75,4 +75,5 @@ public class FirebaseAuthenticationService implements AuthenticationService{
 			.child(FirebaseRepository.USERS_REF)
 					.child(uid).removeValueAsync();
 	}
+	
 }

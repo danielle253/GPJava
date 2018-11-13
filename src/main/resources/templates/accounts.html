@@ -13,6 +13,7 @@
 
 <!--<script type="text/javascript" th:src="@{/js/accounts_management.js}"></script>-->
 <script type="text/javascript">
+
 	function registerate_acc(){
 		$.ajax({url: "registration",
 			success: function(result){
@@ -43,7 +44,14 @@
 
 	function fcs(element){
 		$(".focused").removeClass("focused");
-		element.classList.add("focused");
+		
+		$(".disposed").addClass("hidden");
+		$(".disposed").removeClass("disposed");
+		
+		$(element).addClass("focused");
+		
+		$(element).next().addClass("disposed");
+		$(element).next().removeClass("hidden");	
 	}
 
 	refresh();

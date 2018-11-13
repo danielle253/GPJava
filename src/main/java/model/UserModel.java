@@ -4,14 +4,34 @@ import java.util.ArrayList;
 
 public class UserModel extends Entity{
 		
+		private String email;
 		private double balance;
 		private ArrayList<String> bookings;
+		private boolean active;
 		
 		private UserModel () {}
 		
-		public UserModel(ArrayList<String> bookings, double balance) {
+		public UserModel(String email, ArrayList<String> bookings, double balance, boolean active) {
+			this.email = email;
 			this.balance = balance;
 			this.bookings = bookings;
+			this.active = active;
+		}
+
+		public boolean isActive() {
+			return active;
+		}
+
+		public void setActive(boolean active) {
+			this.active = active;
+		}
+
+		public String getEmail() {
+			return email;
+		}
+
+		public void setEmail(String email) {
+			this.email = email;
 		}
 
 		public double getBalance() {

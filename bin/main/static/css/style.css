@@ -103,6 +103,8 @@ h1 {
 	display: none;
 }
 
+.disposed{}
+
 #map {
     height: 400px;
     width: 75%;

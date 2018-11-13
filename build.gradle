@@ -21,6 +21,8 @@ sourceCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+	google()
+	jcenter()
 }
 
 
@@ -35,5 +37,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
 	compile group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.0.10.RELEASE'
 	implementation 'com.google.firebase:firebase-auth:16.0.5'
-
+	
+    // https://mvnrepository.com/artifact/com.google.maps/google-maps-services
+	compile group: 'com.google.maps', name: 'google-maps-services', version: '0.2.11'
 }
