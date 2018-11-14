@@ -8,6 +8,7 @@ public class UserModel extends Entity{
 		private double balance;
 		private ArrayList<String> bookings;
 		private boolean active;
+		private String token;
 		
 		private UserModel () {}
 		
@@ -16,6 +17,14 @@ public class UserModel extends Entity{
 			this.balance = balance;
 			this.bookings = bookings;
 			this.active = active;
+		}
+
+		public String getToken() {
+			return token;
+		}
+
+		public void setToken(String token) {
+			this.token = token;
 		}
 
 		public boolean isActive() {

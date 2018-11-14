@@ -9,6 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import service.BookingManagmentService;
+import service.NotificationThrowerService;
 import spring.web.test.Tester;
 
 @SpringBootApplication
@@ -17,13 +18,18 @@ public class SpringAdmin {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
+		//new Tester();
 	}
 	
 	@PostConstruct
 	private void serviceStart() {
-		service.start();
+		//service.start();
+		thrower.start();
 	}
 	
 	@Autowired
 	private BookingManagmentService service;
+	
+	@Autowired
+	private NotificationThrowerService thrower;
 }
