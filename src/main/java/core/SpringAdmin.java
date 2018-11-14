@@ -18,12 +18,11 @@ public class SpringAdmin {
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
-		//new Tester();
 	}
 	
 	@PostConstruct
 	private void serviceStart() {
-		//service.start();
+		service.start();
 		thrower.start();
 	}
 	

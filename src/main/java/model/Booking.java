@@ -10,15 +10,27 @@ public class Booking extends Entity{
 
     private LatLng source;
     private LatLng destination;
+    
     private Distance distance;
     private Duration duration;
+    
     private String carID;
 	private String userID;
+	
+	private boolean notificationSent;
 
-    private Booking() {}
+	private Booking() {}
 
     public Distance getDistance() {
 		return distance;
+	}
+    
+	public boolean isNotificationSent() {
+		return notificationSent;
+	}
+
+	public void setNotificationSent(boolean notificationSent) {
+		this.notificationSent = notificationSent;
 	}
 
 	public void setDistance(Distance distance) {

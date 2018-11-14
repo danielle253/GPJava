@@ -32,12 +32,15 @@ public class BookingManagmentService extends Thread{
 
 	@Override
 	public void run() {
+		//while(true){
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {System.out.println(e);}
 		
 		scanBookingsRequest();
 		
-		try {
-			Thread.sleep(20000);
-		} catch (InterruptedException e) {System.out.println(e);}
+	//}
 	}
 	
 	private void scanBookingsRequest() {
@@ -71,12 +74,14 @@ public class BookingManagmentService extends Thread{
 			}
 		}
 		
+		//Could be replaced with builder
 		book.setCarID(allocatedCar.getKey());
 		book.setDuration(allocatedResult.duration);
 		book.setDistance(allocatedResult.distance);
+		book.setNotificationSent(false);
 		
-		repository.push(FirebaseRepository.BOOKING_CONFIRMED_REF, book);
-		System.out.println();
+		repository.set(FirebaseRepository.BOOKING_CONFIRMED_REF + "/"
+				+ book.getKey(), book);
 	}
 	
 }

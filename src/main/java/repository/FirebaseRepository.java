@@ -16,6 +16,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DatabaseReference.CompletionListener;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -40,7 +41,7 @@ public class FirebaseRepository implements Repository {
 			.build(); 
 	
 	private Admin user;
-	private ArrayList list;
+	//private ArrayList list;
 	private Object object;
 	
 	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -81,8 +82,13 @@ public class FirebaseRepository implements Repository {
 	}
 	
 	@Override
-	public void push(String reference, Object obj) {
+	public <T extends Entity> void push(String reference, T obj) {
 		ref.child(reference).push().setValueAsync(obj);
+	}
+	
+	@Override
+	public <T extends Entity> void set(String reference, T obj) {
+		ref.child(reference).setValueAsync(obj);
 	}
 	
 	@Override
@@ -92,12 +98,13 @@ public class FirebaseRepository implements Repository {
 
 	@Override
 	public <T extends Entity> ArrayList<T> getObjectList(String reference, Class<T> c) {
+		final ArrayList<T> list = new ArrayList<T>();
 		
 		ref.child(reference).addListenerForSingleValueEvent(new ValueEventListener() {
-
+			
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				list = new ArrayList<T>();
+				
 				snapshot.getChildren().forEach(i -> {
 					T item = i.getValue(c);
 					item.setKey(i.getKey());
@@ -114,6 +121,7 @@ public class FirebaseRepository implements Repository {
 		});	
 			
 		waiter.waitRespond();
+		
 		return list;
 	}
 
@@ -154,7 +162,7 @@ public class FirebaseRepository implements Repository {
 		}
 		
 		public void respond() {
-			exec.execute(future);
+			exec.execute(future);	
 		}
 	}
 }

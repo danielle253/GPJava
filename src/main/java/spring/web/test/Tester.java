@@ -34,48 +34,8 @@ import service.BookingManagmentService;
 
 public class Tester {
 
-
-	
 	public Tester(){
 		
-		FirebaseDatabase.getInstance().getReference().child(FirebaseRepository.USERS_REF)
-			.child("32yhyPZOADN8gOXFGVerN146fnR2").addListenerForSingleValueEvent(new ValueEventListener() {
-
-				@Override
-				public void onDataChange(DataSnapshot snapshot) {
-					UserModel user = snapshot.getValue(UserModel.class);
-					
-					// This registration token comes from the client FCM SDKs.
-					String registrationToken = user.getToken();
-
-					// See documentation on defining a message payload.
-					Message message = Message.builder()
-					    .putData("Hello", "Boi")
-					    .putData("Key", "Value")
-					    //.setTopic("TestBoi")
-					    .setToken(user.getToken())
-					    .setNotification(new Notification("Test Notification", "Body Here"))
-					    .build();
-					
-					
-					// Send a message to the device corresponding to the provided
-					// registration token.	
-					try {
-						String response = FirebaseMessaging.getInstance().send(message);
-						System.out.println(response);
-					} catch (FirebaseMessagingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-
-				@Override
-				public void onCancelled(DatabaseError error) {
-					// TODO Auto-generated method stub
-					
-				}
 				
-			});
-		
 	}
 }
