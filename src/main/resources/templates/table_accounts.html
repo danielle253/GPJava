@@ -5,7 +5,7 @@
 	<th>Active</th>
 	<th>Bookings</th>
 </tr>
-<div th:each="user : ${users}" class="item" >
+<th:block th:each="user : ${users}" class="item" >
 	<tr onclick="fcs(this)">
 			<td th:text="${user.key}"></td>
 			<td th:text="${user.email}"></td>
@@ -13,7 +13,8 @@
 			<td th:text="${user.active}"></td>
 			<td id="bookings" th:text="${user.bookings != null} ? ${#lists.size(user.bookings)} : 'None'"></td>
 	</tr>
+
 	<tr th:each="booking: ${user.bookings}" class="hidden">
 		<td th:text="${booking}"></td>
 	</tr>
-</div>
+</th:block>

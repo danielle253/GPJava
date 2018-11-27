@@ -45,15 +45,27 @@
 	function fcs(element){
 		$(".focused").removeClass("focused");
 		
-		$(".disposed").addClass("hidden");
-		$(".disposed").removeClass("disposed");
+		$(".disposed").each(function() {
+  			$(this).addClass("hidden");
+  			$(this).removeClass("disposed");
+		});
 		
 		$(element).addClass("focused");
-		
-		$(element).next().addClass("disposed");
-		$(element).next().removeClass("hidden");	
-	}
 
+		var nextElement = $(element);
+		console.log(5);
+		while(true){
+
+			nextElement = $(nextElement).next();
+			if($(nextElement).hasClass("hidden")){
+				$(nextElement).addClass("disposed");
+				$(nextElement).removeClass("hidden");
+			} else {
+				break;
+			}
+		}	
+	}
+	console.log(1);
 	refresh();
 
 </script>

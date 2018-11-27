@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -40,20 +41,16 @@ public class FirebaseRepository implements Repository {
 			.put(ADMIN_REF, Admin.class)
 			.build(); 
 	
-	private Admin user;
-	//private ArrayList list;
-	private Object object;
-	
 	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-	private final Waiter waiter = new Waiter();
 	
 	@Override
 	public User getUserByUsername(String username) {
+		final Waiter waiter = new Waiter();
 		
 		ref.child(ADMIN_REF).child(username).addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				user = snapshot.getValue(Admin.class);
+				waiter.setAdmin(snapshot.getValue(Admin.class));
 				waiter.respond();
 			}
 
@@ -62,6 +59,7 @@ public class FirebaseRepository implements Repository {
 		});
 		
 		waiter.waitRespond();
+		Admin user = waiter.getAdmin();
 		
 		ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		user.getAuth().forEach(e -> authorities.add(new SimpleGrantedAuthority("ROLE_" + e)));
@@ -70,8 +68,6 @@ public class FirebaseRepository implements Repository {
 				.password("{sha256}" + user.getPassword())
 				.authorities(authorities)
 				.build();
-		
-		user = null;
 		
 		return (User) userDetails;
 	}
@@ -97,8 +93,8 @@ public class FirebaseRepository implements Repository {
 	}
 
 	@Override
-	public <T extends Entity> ArrayList<T> getObjectList(String reference, Class<T> c) {
-		final ArrayList<T> list = new ArrayList<T>();
+	public <T extends Entity> List<T> getObjectList(String reference, Class<T> c) {
+		final Waiter waiter = new Waiter();
 		
 		ref.child(reference).addListenerForSingleValueEvent(new ValueEventListener() {
 			
@@ -108,7 +104,7 @@ public class FirebaseRepository implements Repository {
 				snapshot.getChildren().forEach(i -> {
 					T item = i.getValue(c);
 					item.setKey(i.getKey());
-					list.add(item);
+					waiter.getList().add(item);
 				});
 				waiter.respond();
 			}
@@ -122,18 +118,18 @@ public class FirebaseRepository implements Repository {
 			
 		waiter.waitRespond();
 		
-		return list;
+		return waiter.getList();
 	}
 
 	@Override
 	public <T extends Entity> T getObject(String reference, String child) {
-	
+		final Waiter waiter = new Waiter();
 		ref.child(reference).child(child).addListenerForSingleValueEvent(new ValueEventListener() {
 		
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				object = snapshot.getValue(CLASS_REF.get(reference));
-				((T) object).setKey(snapshot.getKey());
+				waiter.setObject(snapshot.getValue(CLASS_REF.get(reference)));
+				((T) waiter.getObject()).setKey(snapshot.getKey());
 				waiter.respond();
 			}
 
@@ -146,23 +142,53 @@ public class FirebaseRepository implements Repository {
 		
 		waiter.waitRespond();
 		
-		return (T) object;
+		return (T) waiter.object;
 	}
 	
 	private class Waiter {
 		private final int TIMEOUT = 10000;
-		private FutureTask<Void> future = new FutureTask<Void>(() -> null);
-		private ExecutorService exec = Executors.newFixedThreadPool(1);
+		
+		private Admin admin;
+		private final List list;
+		private Object object;
+		
+		private final FutureTask<Void> future;
+		private final ExecutorService exec;
+		
+		public Waiter() {
+			future = new FutureTask<Void>(() -> null);
+			exec = Executors.newFixedThreadPool(1);
+			list = new ArrayList();
+		}
 		
 		public void waitRespond() {
 			try {
 				future.get(TIMEOUT, TimeUnit.MILLISECONDS);
-				future = new FutureTask<Void>(() -> null);
 			} catch (Throwable e) {System.out.println(e);}
 		}
 		
 		public void respond() {
 			exec.execute(future);	
+		}
+
+		public void setAdmin(Admin admin) {
+			this.admin = admin;
+		}
+
+		public void setObject(Object object) {
+			this.object = object;
+		}
+
+		public Admin getAdmin() {
+			return admin;
+		}
+
+		public List getList() {
+			return list;
+		}
+
+		public Object getObject() {
+			return object;
 		}
 	}
 }

@@ -59,8 +59,11 @@ public class AdminController {
 			path= "table_accounts",
 			method= RequestMethod.GET)
 	public String table_accounts(Model model) {
-		model.addAttribute("users", repository.getObjectList(
-				FirebaseRepository.USERS_REF, UserModel.class));
+		List list = repository.getObjectList(
+				FirebaseRepository.USERS_REF, UserModel.class);
+		
+		model.addAttribute("users", list);
+		
 		return "table_accounts";
 	}
 	

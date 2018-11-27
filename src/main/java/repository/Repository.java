@@ -1,6 +1,6 @@
 package repository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.User;
 
@@ -13,7 +13,7 @@ public interface Repository {
 	
 	<T extends Entity> T getObject(String ref, String child);
 	void add(String ref, String child, Object obj);
-	<T extends Entity> ArrayList<T> getObjectList(String ref, Class<T> c);
+	<T extends Entity> List<T> getObjectList(String ref, Class<T> c);
 	void delete(String reference, String child);
 
 	<T extends Entity> void push(String referece, T obj);

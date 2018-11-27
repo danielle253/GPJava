@@ -33,7 +33,7 @@ public class BookingManagmentService extends Thread{
 
 	@Autowired
 	private GeoApiContext context;
-	
+
 	private final int DURATION_LIMIT = 900; // Limit to send a push notification
 
 	public BookingManagmentService(){
@@ -53,11 +53,14 @@ public class BookingManagmentService extends Thread{
 	}
 
 	private void bookingsRequestScan() {
-		Queue<Booking> queue = new LinkedList<Booking>(
-				repository.getObjectList(FirebaseRepository.BOOKING_REF, Booking.class));
+		List list = repository.getObjectList(FirebaseRepository.BOOKING_REF, Booking.class);
+
+
+		Queue<Booking> queue = new LinkedList<Booking>(list);
 
 		if(!queue.isEmpty())
 			queue.forEach(this::allocation);
+
 	}
 
 	private void allocation(Booking book) {
@@ -90,12 +93,13 @@ public class BookingManagmentService extends Thread{
 
 		repository.set(FirebaseRepository.BOOKING_CONFIRMED_REF + "/"
 				+ book.getKey(), book);
-		
+
 		repository.delete(FirebaseRepository.BOOKING_REF, book.getKey());
 	}
 
 	private void pushNotificationThrowingScan() {
 		List<Booking> list = repository.getObjectList(FirebaseRepository.BOOKING_CONFIRMED_REF, Booking.class);
+
 
 		list.forEach(booking -> {
 			if(!booking.isNotificationSent())
@@ -119,6 +123,7 @@ public class BookingManagmentService extends Thread{
 					} catch (FirebaseMessagingException e) {System.out.println(e);}
 				}
 		});
+
 	}
 
 }
