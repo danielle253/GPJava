@@ -22,7 +22,6 @@ import repository.Repository;
 import service.BookingManagmentService;
 import service.FirebaseAuthenticationService;
 import service.FirebaseUserDetailsService;
-import service.NotificationThrowerService;
 
 @Configuration
 public class FirebaseConfig {
@@ -51,13 +50,6 @@ public class FirebaseConfig {
 		} catch (Throwable e) {
 			System.out.println(e);
 		}
-	}
-	
-	
-	
-	@Bean
-	public NotificationThrowerService notificationThrower() {
-		return new NotificationThrowerService();
 	}
 	
 	@Bean

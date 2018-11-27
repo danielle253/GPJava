@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import service.BookingManagmentService;
-import service.NotificationThrowerService;
 import spring.web.test.Tester;
 
 @SpringBootApplication
@@ -22,13 +21,10 @@ public class SpringAdmin {
 	
 	@PostConstruct
 	private void serviceStart() {
-		service.start();
-		thrower.start();
+		bookingManagmentService.start();
 	}
 	
 	@Autowired
-	private BookingManagmentService service;
+	private BookingManagmentService bookingManagmentService;
 	
-	@Autowired
-	private NotificationThrowerService thrower;
 }

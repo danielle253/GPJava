@@ -8,8 +8,8 @@ import com.google.maps.model.LatLng;
 
 public class Booking extends Entity{
 
-    private LatLng source;
-    private LatLng destination;
+    private Coordinate source;
+    private Coordinate destination;
     
     private Distance distance;
     private Duration duration;
@@ -45,25 +45,25 @@ public class Booking extends Entity{
 		this.duration = duration;
 	}
 
-	public Booking(LatLng source, LatLng destination, String userID) {
+	public Booking(Coordinate source, Coordinate destination, String userID) {
         this.source = source;
         this.destination = destination;
         this.userID = userID;
     }
 
-    public LatLng getSource() {
+    public Coordinate getSource() {
 		return source;
 	}
 
-	public void setSource(LatLng source) {
+	public void setSource(Coordinate source) {
 		this.source = source;
 	}
 
-	public LatLng getDestination() {
+	public Coordinate getDestination() {
 		return destination;
 	}
 
-	public void setDestination(LatLng destination) {
+	public void setDestination(Coordinate destination) {
 		this.destination = destination;
 	}
 
