@@ -1,15 +1,16 @@
 package model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.google.maps.model.Distance;
 import com.google.maps.model.Duration;
-import com.google.maps.model.LatLng;
 
 public class Booking extends Entity{
 
     private Coordinate source;
     private Coordinate destination;
+    
+    private List<Coordinate> path;
     
     private Distance distance;
     private Duration duration;
@@ -18,10 +19,28 @@ public class Booking extends Entity{
 	private String userID;
 	
 	private boolean notificationSent;
-
+	private boolean inProgress;
+	private boolean complete;
+	
+	private long hold;
+	
 	private Booking() {}
+	
+	public Booking(Coordinate source, Coordinate destination, String userID) {
+        this.source = source;
+        this.destination = destination;
+        this.userID = userID;
+    }
 
-    public Distance getDistance() {
+    public List<Coordinate> getPath() {
+		return path;
+	}
+
+	public void setPath(List<Coordinate> path) {
+		this.path = path;
+	}
+
+	public Distance getDistance() {
 		return distance;
 	}
     
@@ -44,12 +63,6 @@ public class Booking extends Entity{
 	public void setDuration(Duration duration) {
 		this.duration = duration;
 	}
-
-	public Booking(Coordinate source, Coordinate destination, String userID) {
-        this.source = source;
-        this.destination = destination;
-        this.userID = userID;
-    }
 
     public Coordinate getSource() {
 		return source;
@@ -81,5 +94,29 @@ public class Booking extends Entity{
 
 	public void setCarID(String carID) {
 		this.carID = carID;
+	}
+
+	public boolean isInProgress() {
+		return inProgress;
+	}
+
+	public void setInProgress(boolean inProgress) {
+		this.inProgress = inProgress;
+	}
+
+	public long getHold() {
+		return hold;
+	}
+
+	public void setHold(long hold) {
+		this.hold = hold;
+	}
+
+	public boolean isComplete() {
+		return complete;
+	}
+
+	public void setComplete(boolean complete) {
+		this.complete = complete;
 	}
 }

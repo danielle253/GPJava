@@ -30,16 +30,18 @@ public class FirebaseRepository implements Repository {
 	
 	public static String 
 	USERS_REF = "USERS", 
-	CARS_REF = "COORDS", 
+	CARS_REF = "CARS", 
 	ADMIN_REF = "ADMIN_USERS",
 	BOOKING_REF = "BOOKINGS",
-	BOOKING_CONFIRMED_REF = "BOOKINGS_CONFIRMED";
+	BOOKING_CONFIRMED_REF = "BOOKINGS_CONFIRMED",
+	BOOKING_IN_PROGRESS_REF = "BOOKINGS_IN_PROGRESS",
+	BOOKING_HISTORY_REF = "BOOKINGS_HISTORY";
 	
 	private final Map<String, Class> CLASS_REF = ImmutableMap.<String, Class>builder()
 			.put(USERS_REF, UserModel.class)
 			.put(CARS_REF, Car.class)
 			.put(ADMIN_REF, Admin.class)
-			.build(); 
+			.build();
 	
 	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 	
@@ -143,6 +145,11 @@ public class FirebaseRepository implements Repository {
 		waiter.waitRespond();
 		
 		return (T) waiter.object;
+	}
+	
+	@Override
+	public <T extends Entity> void update(String reference, Map map) {
+		ref.child(reference).updateChildrenAsync(map);
 	}
 	
 	private class Waiter {

@@ -27,6 +27,7 @@ import com.google.maps.model.DistanceMatrixElement;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
 
+import model.Car;
 import model.UserModel;
 import repository.FirebaseRepository;
 import service.BookingManagmentService;
@@ -35,7 +36,21 @@ import service.BookingManagmentService;
 public class Tester {
 
 	public Tester(){
-		
+		FirebaseDatabase.getInstance().getReference("/CARS/-LSU82U4mAjAfdXBzYQ9").addListenerForSingleValueEvent(new ValueEventListener() {
+
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				Car car = snapshot.getValue(Car.class);
+				System.out.println();
+			}
+
+			@Override
+			public void onCancelled(DatabaseError error) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 				
 	}
 }

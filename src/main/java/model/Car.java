@@ -1,50 +1,39 @@
 package model;
 
-import com.google.maps.model.LatLng;
-
 public class Car extends Entity{
-	private float latitude;
-	private float longitude;
-	private LatLng position;
-	private String serial;
-	
+	private Coordinate position;
+	private String bookingID;
+	private boolean available;
+
 	private Car() {}
 	
-	public Car(LatLng position, String serial) {
+	public Car(Coordinate position, String bookingID, boolean available) {
 		this.position = position;
-		this.serial = serial;
+		this.bookingID = bookingID;
+		this.available = available;
 	}
 
-	public LatLng getPosition() {
+	public Coordinate getPosition() {
 		return position;
 	}
 
-	public void setPosition(LatLng position) {
+	public String getBookingID() {
+		return bookingID;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setPosition(Coordinate position) {
 		this.position = position;
 	}
 
-	public String getSerial() {
-		return serial;
+	public void setBookingID(String bookingID) {
+		this.bookingID = bookingID;
 	}
 
-	public void setSerial(String serial) {
-		this.serial = serial;
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
-	
-	public float getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
-	}
-
-	public float getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
-	}
-
 }

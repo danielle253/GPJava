@@ -15,16 +15,16 @@ import spring.web.test.Tester;
 @ComponentScan(basePackages={"controller", "config", "core"})
 public class SpringAdmin {
 	
+	@Autowired
+	private BookingManagmentService bookingManagmentService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
+		//new Tester();
 	}
 	
 	@PostConstruct
 	private void serviceStart() {
 		bookingManagmentService.start();
 	}
-	
-	@Autowired
-	private BookingManagmentService bookingManagmentService;
-	
 }

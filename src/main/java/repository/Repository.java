@@ -1,6 +1,7 @@
 package repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.userdetails.User;
 
@@ -16,6 +17,7 @@ public interface Repository {
 	<T extends Entity> List<T> getObjectList(String ref, Class<T> c);
 	void delete(String reference, String child);
 
-	<T extends Entity> void push(String referece, T obj);
-	<T extends Entity> void set(String referece, T obj);
+	<T extends Entity> void push(String reference, T obj);
+	<T extends Entity> void set(String reference, T obj);
+	<T extends Entity> void update(String reference, Map obj);
 }
