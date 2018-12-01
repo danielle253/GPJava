@@ -1,20 +1,17 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import manager.BookingManager;
+import manager.CarManager;
 import model.Car;
-import model.UserModel;
 import repository.FirebaseRepository;
 import repository.Repository;
 import service.AuthenticationService;
-
 
 @RestController
 @RequestMapping("rest")
@@ -42,7 +39,7 @@ public class SpringRestController {
 	
 	@RequestMapping(path="deleteUserAccount")
 	public boolean deleteUser(@RequestParam("uid") String uid) {
-		authService.deleteUser(uid);;
+		authService.deleteUser(uid);
 		return true;
 	}
 	
@@ -62,5 +59,39 @@ public class SpringRestController {
 		return repository.getObject(ref, child);
 	}
 	
+	@RequestMapping(path="booking_suspend")
+	public void bookingSuspend(@RequestParam("bookingRef") String bookingRef) {
+		BookingManager.suspend(repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
+	}
+	
+	@RequestMapping(path="booking_unsuspend")
+	public void bookingUnsuspend(@RequestParam("bookingRef") String bookingRef) {
+		BookingManager.unsuspend(repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
+	}
+	
+	@RequestMapping(path="booking_abort")
+	public void bookingAbort(@RequestParam("bookingRef") String bookingRef) {
+		BookingManager.abortation(repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
+	}
+	
+	@RequestMapping(path="car_suspend")
+	public void carSuspend(@RequestParam("carRef") String carRef) {
+		CarManager.suspend(repository.getObject(FirebaseRepository.CARS_REF, carRef));
+	}
+	
+	@RequestMapping(path="car_unsuspend")
+	public void carUnsuspend(@RequestParam("carRef") String carRef) {
+		CarManager.unsuspend(repository.getObject(FirebaseRepository.CARS_REF, carRef));
+	}
+	
+	@RequestMapping(path="car_new")
+	public void carNew() {
+		CarManager.addNew();
+	}
+	
+	@RequestMapping(path="car_delete")
+	public void carDelete(@RequestParam("carRef") String carRef) {
+		CarManager.delete(carRef);
+	}
 	
 }

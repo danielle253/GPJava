@@ -1,11 +1,7 @@
 package controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
-import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -13,13 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import model.Booking;
 import model.Car;
 import model.UserModel;
 import repository.FirebaseRepository;
 import repository.Repository;
-import service.BookingManagmentService;
 
 @Controller
 @RequestMapping("/")
@@ -29,7 +24,6 @@ public class AdminController {
 	private Repository repository;
 	
 	AdminController(){
-		
 		System.out.println("Controller Ready");
 	}
 
@@ -74,6 +68,14 @@ public class AdminController {
 		model.addAttribute("cars", repository.getObjectList(
 				FirebaseRepository.CARS_REF, Car.class));
 		return "map";
+	}
+	
+	@RequestMapping(
+			path= "booking_details",
+			method= RequestMethod.GET)
+	public String booking_details(@RequestParam("bookingRef") String bookingRef, Model model) {
+		model.addAttribute("booking", repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
+		return "booking_details";
 	}
 }
 

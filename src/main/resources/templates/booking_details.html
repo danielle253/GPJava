@@ -1,0 +1,114 @@
+<table>
+
+	<tr>
+		<td>Booking Ref:</td>
+		<td th:text="${booking.key}" id="bookingRef"></td>
+	</tr>
+
+	<tr onclick="">
+		<td>User Ref:</td>
+		<td th:text="${booking.userID}" id="userRef"></td>
+	</tr>
+
+	<th:block th:if="${booking.carID != null}">
+		<tr onclick="">
+			<td>Car Ref:</td>
+			<td th:text="${booking.carID}" id="carRef"></td>
+		</tr>
+	<th:block>
+
+	<th:block th:if="${booking.sourceAddress != null}">
+		<tr>
+			<td>Source Address:</td>
+			<td th:text="${booking.sourceAddress}"></td>
+		</tr>
+	<th:block>
+
+	<th:block th:if="${booking.destinationAddress != null}">
+		<tr>
+			<td>Destination Address:</td>
+			<td th:text="${booking.destinationAddress}"></td>
+		</tr>
+	</th:block>
+
+	<th:block th:if="${booking.duration != null}"> 
+		<tr>
+			<td>Duration to the point:</td>
+			<td th:text="${booking.duration.humanReadable}"></td>
+		</tr>
+	</th:block>
+
+	<th:block th:if="${booking.distance != null}"> 
+		<tr>
+			<td>Distance(meters):</td>
+			<td  th:text="${booking.distance.humanReadable}"></td>
+		</tr>
+	</th:block>
+
+	<tr>
+		<td>Stage:</td>
+		<td th:text="${booking.stage}"></td>
+	</tr>
+
+	<th:block th:if="${booking.state != null}">
+		<tr>
+			<td>State:</td>
+			<td th:text="${booking.state}"></td>
+		</tr>
+	</th:block>
+
+	<tr>
+		<td>Notification Sent:</td>
+		<td th:text="${booking.notificationSent != null} ? ${booking.notificationSent} : 'false'"></td>
+	</tr>
+
+	<tr>
+		</br>
+		</br>
+		<td><input type="button" name="suspend" value="Suspend" onclick="suspend()"></td>
+		<td><input type="button" name="unsuspend" value="Unsuspend" onclick="unsuspend()"></td>
+		<td> <input type="button" name="abort" value="Abort" onclick="abort()"></td>
+		<td> <input type="button" name="refresh" value="Refresh" onclick="refresh()"></td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	function suspend(){
+		$.ajax({url: "/rest/booking_suspend",
+			data:{bookingRef: $("#bookingRef").text()},
+			success: function(result){
+   				//refresh();
+   				alert("Suspended!");
+			}
+		});
+	}
+
+	function unsuspend(){
+		$.ajax({url: "/rest/booking_unsuspend",
+			data:{bookingRef: $("#bookingRef").text()},
+			success: function(result){
+   				//refresh();
+   				alert("Unsuspended!");
+			}
+		});
+	}
+
+	function abort(){
+		$.ajax({url: "/rest/abort",
+			data:{bookingRef: $("#bookingRef").text()},
+			success: function(result){
+   				//refresh();
+   				alert("Aborted!");
+			}
+		});
+	}
+
+	function refresh(){
+		$.ajax({url: "booking_details",
+			data:{bookingRef: $("#bookingRef").text()},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+</script>

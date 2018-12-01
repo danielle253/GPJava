@@ -15,12 +15,16 @@ public class Booking extends Entity{
     private Distance distance;
     private Duration duration;
     
+    private String sourceAddress;
+    private String destinationAddress;
+    
     private String carID;
 	private String userID;
 	
+	private String stage;
+	private String state;
+	
 	private boolean notificationSent;
-	private boolean inProgress;
-	private boolean complete;
 	
 	private long hold;
 	
@@ -96,14 +100,6 @@ public class Booking extends Entity{
 		this.carID = carID;
 	}
 
-	public boolean isInProgress() {
-		return inProgress;
-	}
-
-	public void setInProgress(boolean inProgress) {
-		this.inProgress = inProgress;
-	}
-
 	public long getHold() {
 		return hold;
 	}
@@ -112,11 +108,35 @@ public class Booking extends Entity{
 		this.hold = hold;
 	}
 
-	public boolean isComplete() {
-		return complete;
+	public String getSourceAddress() {
+		return sourceAddress;
 	}
 
-	public void setComplete(boolean complete) {
-		this.complete = complete;
+	public String getDestinationAddress() {
+		return destinationAddress;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setSourceAddress(String sourceAddress) {
+		this.sourceAddress = sourceAddress;
+	}
+
+	public void setDestinationAddress(String destinationAddress) {
+		this.destinationAddress = destinationAddress;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getStage() {
+		return stage;
+	}
+
+	public void setStage(String stage) {
+		this.stage = stage;
 	}
 }

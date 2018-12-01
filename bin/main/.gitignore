@@ -1,8 +1,10 @@
-/core/
-/model/
-/repository/
-/service/
-/spring/
-/templates/
-/config/
+/manager/
 /controller/
+/service/
+/core/
+/templates/
+/repository/
+/model/
+/static/
+/CarManager/
+/config/

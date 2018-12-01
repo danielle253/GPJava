@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.stereotype.Component;
 
 import service.BookingManagmentService;
 import spring.web.test.Tester;
 
 @SpringBootApplication
-@ComponentScan(basePackages={"controller", "config", "core"})
+@ComponentScan(basePackages={"controller", "config", "core", "manager"})
 public class SpringAdmin {
 	
-	@Autowired
+	/*@Autowired
 	private BookingManagmentService bookingManagmentService;
+	*/
+	@Autowired
+	private BookingManagmentService service;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
@@ -25,6 +27,6 @@ public class SpringAdmin {
 	
 	@PostConstruct
 	private void serviceStart() {
-		bookingManagmentService.start();
+		//service.start();
 	}
 }

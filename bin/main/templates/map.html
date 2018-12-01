@@ -6,16 +6,123 @@
 </p>
 <table id="myTable">
 	<tr>
-		<th>Car Serial</th>
+		<th>Car Ref</th>
 		<th>Latitude</th>
 		<th>Longitude</th>
+		<th>Available</th>
+		<th>Suspended</th>
 	</tr>
-	<tr th:each="car : ${cars}" class="item" onclick="placeMarker(this)">
-		<td th:text="${car.serial}"></td>
-		<td th:text="${car.latitude}"></td>
-		<td th:text="${car.longitude}"></td>
+	<th:block th:each="car : ${cars}" class="item" >
+		<tr class="item" onclick="placeMarker(this)">
+			<td th:text="${car.key}" id="carRef"></td>
+			<th:block th:if="${car.position != null}">
+				<td th:text="${car.position.latitude}"></td>
+				<td th:text="${car.position.longitude}"></td>
+			</th:block>
+			<td th:text="${car.available}"></td>
+			<td th:text="${car.suspended}"></td>
+		</tr>
+
+		<th:block th:if="${car.bookingID != null}">
+			<tr class="hidden">
+				<th>Booking Ref</th>
+			</tr>			
+			<tr class="hidden" onclick="bookingDetails(this)">
+				<td th:text="${car.bookingID}"></td>
+			</tr>
+		</th:block>
+	</th:block>
+	<tr>
+		<td><input type="button" name="new" value="New" onclick="newCar()"></td>
+		<td><input type="button" name="suspend" value="Suspend" onclick="suspend()"></td>
+		<td><input type="button" name="unsuspend" value="Unsuspend" onclick="unsuspend()"></td>
+		<td> <input type="button" name="delete" value="Delete" onclick="deleteCar()"></td>
+		<td> <input type="button" name="refresh" value="Refresh" onclick="refresh()"></td>
 	</tr>
 </table>
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2aVBxSbYBYEkMQlKyKzFfYbzll03GN2E&callback=initMap"></script>
 <script type="text/javascript" th:src="@{/js/map.js}"></script>
+
+<script type="text/javascript">
+	function fcs(element){
+		$(".focused").removeClass("focused");
+		
+		$(".disposed").each(function() {
+  			$(this).addClass("hidden");
+  			$(this).removeClass("disposed");
+		});
+		
+		$(element).addClass("focused");
+
+		var nextElement = $(element);
+		console.log(5);
+		while(true){
+
+			nextElement = $(nextElement).next();
+			if($(nextElement).hasClass("hidden")){
+				$(nextElement).addClass("disposed");
+				$(nextElement).removeClass("hidden");
+			} else {
+				break;
+			}
+		}	
+	}
+
+	function bookingDetails(element){
+		var bookingRef = $(element).find('td').eq(0).text();
+
+		$.ajax({url: "booking_details",
+			data:{bookingRef: bookingRef},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+
+	function suspend(){
+		$.ajax({url: "/rest/car_suspend",
+			data:{carRef: $(".focused #carRef").text()},
+			success: function(result){
+   				//refresh();
+   				alert("Suspended!");
+			}
+		});
+	}
+
+	function unsuspend(){
+		$.ajax({url: "/rest/car_unsuspend",
+			data:{carRef: $(".focused #carRef").text()},
+			success: function(result){
+   				//refresh();
+   				alert("Unsuspended!");
+			}
+		});
+	}
+
+	function deleteCar(){
+		$.ajax({url: "/rest/car_delete",
+			data:{carRef: $(".focused #carRef").text()},
+			success: function(result){
+   				//refresh();
+   				alert("Deleted!");
+			}
+		});
+	}
+
+	function newCar(){
+		$.ajax({url: "/rest/car_new",
+			success: function(result){
+   				//refresh();
+   				alert("Created!");
+			}
+		});
+	}
+
+	function refresh(){
+		window.location.reload();
+	}
+
+	console.log(1);
+
+</script>
