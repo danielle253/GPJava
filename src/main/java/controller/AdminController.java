@@ -73,9 +73,22 @@ public class AdminController {
 	@RequestMapping(
 			path= "booking_details",
 			method= RequestMethod.GET)
-	public String booking_details(@RequestParam("bookingRef") String bookingRef, Model model) {
-		model.addAttribute("booking", repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
+	public String booking_details(@RequestParam("ref") String ref, @RequestParam("bookingRef") String bookingRef, Model model) {
+		if(ref.equals("0")) 
+			model.addAttribute("booking", repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
+		else
+			model.addAttribute("booking", repository.getObject(FirebaseRepository.BOOKING_LOG_REF, bookingRef));
+		
 		return "booking_details";
+	}
+	
+	@RequestMapping(
+			path= "bookings",
+			method= RequestMethod.GET)
+	public String bookings(Model model) {
+		model.addAttribute("bookingInProgress", repository.getObjectList(FirebaseRepository.BOOKING_REF, Booking.class));
+		model.addAttribute("bookingHistory", repository.getObjectList(FirebaseRepository.BOOKING_LOG_REF, Booking.class));
+		return "bookings";
 	}
 }
 

@@ -21,6 +21,7 @@ import com.google.maps.model.GeocodingResult;
 import model.Booking;
 import model.Car;
 import model.Coordinate;
+import model.UserModel;
 import repository.FirebaseRepository;
 import repository.Repository;
 
@@ -53,15 +54,19 @@ public class BookingManager {
 					new Coordinate(sourceResult.geometry.location), 
 						new Coordinate(destinationResult.geometry.location), userRef);
 			
+			UserModel user = repository.getObject(FirebaseRepository.USERS_REF, userRef);
+			user.getBookingInProgress().add(booking.getKey());
+			
 			booking.setStage("SUSPENDED");
 			repository.set(ref, booking);
+			repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
 		} catch (ApiException | InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void suspend(Booking booking) {
-		freeCar(booking.getCarID());
+		CarManager.freeCar(booking.getCarID());
 		booking.setStage("SUSPENDED");
 		repository.set(ref + booking.getKey(), booking);
 	}
@@ -151,13 +156,18 @@ public class BookingManager {
 	public static void log(Booking booking) {
 		booking.setDistance(null);
 		booking.setDuration(null);
-
-		freeCar(booking.getCarID());
+		
+		UserModel user = repository.getObject(FirebaseRepository.USERS_REF, booking.getUserID());
+		user.getBookingHistory().add(booking.getKey());
+		user.getBookingInProgress().remove(booking.getKey());
+		
+		CarManager.freeCar(booking.getCarID());
+		repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
 		repository.set(FirebaseRepository.BOOKING_LOG_REF + "/" + booking.getKey(), booking);
 		repository.delete(ref, booking.getKey());
 	}
+	
 	//Services
-
 	private static boolean allocateCar(Booking booking) throws ApiException, InterruptedException, IOException {
 		List<Car> cars = repository.getObjectList(FirebaseRepository.CARS_REF, Car.class);
 
@@ -197,15 +207,6 @@ public class BookingManager {
 		return true;
 	}
 
-	private static void freeCar(String carID) {
-		if(carID != null) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("available", true);
-			map.put("bookingID", null);
-
-			repository.update(FirebaseRepository.CARS_REF + "/"+ carID, map);
-		}
-	}
 
 	private static void setFormatedAddress(Booking booking) throws ApiException, InterruptedException, IOException {
 		GeocodingResult[] source = GeocodingApi.newRequest(context).latlng(

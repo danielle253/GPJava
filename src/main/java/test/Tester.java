@@ -1,4 +1,4 @@
-package spring.web.test;
+package test;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,27 +31,23 @@ import com.google.maps.model.LatLng;
 import model.Car;
 import model.UserModel;
 import repository.FirebaseRepository;
+import repository.Repository;
 import service.BookingManagmentService;
 
-
+@Component
 public class Tester {
-
+	
+	@Autowired 
+	private Repository repository;
+	
 	public Tester(){
-		FirebaseDatabase.getInstance().getReference("/CARS/-LSU82U4mAjAfdXBzYQ9").addListenerForSingleValueEvent(new ValueEventListener() {
-
-			@Override
-			public void onDataChange(DataSnapshot snapshot) {
-				Car car = snapshot.getValue(Car.class);
-				System.out.println();
-			}
-
-			@Override
-			public void onCancelled(DatabaseError error) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-				
+		
+	}
+	
+	public void test() {
+		UserModel user = repository.getObject(FirebaseRepository.USERS_REF, "LXCLjAtsdqSJmmMLCrne8n0hJpX2");
+		user.getBookingHistory().add("-LSfaSqX1Jp0-IoyHO69");
+		user.getBookingInProgress().add("-LSfVRo6RNtDnP1TN32C");
+		repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
 	}
 }

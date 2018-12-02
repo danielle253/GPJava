@@ -3,7 +3,7 @@
 	<th>UserID</th>
 	<th>Balance</th>
 	<th>Active</th>
-	<th>Bookings</th>
+	<th>Bookings In Progress</th>
 </tr>
 <th:block th:each="user : ${users}" class="item" >
 	<tr onclick="fcs(this)">
@@ -11,10 +11,34 @@
 			<td th:text="${user.email}"></td>
 			<td th:text="${user.balance}"></td>
 			<td th:text="${user.active}"></td>
-			<td id="bookings" th:text="${user.bookings != null} ? ${#lists.size(user.bookings)} : 'None'"></td>
+			<td id="bookings" th:text="${user.bookingInProgress != null} ? ${#lists.size(user.bookingInProgress)} : 'None'"></td>
 	</tr>
 
-	<tr th:each="booking: ${user.bookings}" class="hidden">
+	<tr class="hidden">
+		<td>Bookings In Progress</td>
+	</tr>
+	<tr th:each="booking: ${user.bookingInProgress}" onclick="bookingDetails(0, this)" class="hidden">
 		<td th:text="${booking}"></td>
 	</tr>
+
+	<tr class="hidden">
+		<td >Bookings Log</td>
+	</tr>
+	<tr th:each="booking: ${user.bookingHistory}" onclick="bookingDetails(1, this)" class="hidden">
+		<td th:text="${booking}"></td>
+	</tr>
+	
+
 </th:block>
+<script type="text/javascript">
+	function bookingDetails(ref, element){
+		var bookingRef = $(element).find('td').eq(0).text();
+
+		$.ajax({url: "booking_details",
+			data:{bookingRef: bookingRef, ref: ref},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+</script>

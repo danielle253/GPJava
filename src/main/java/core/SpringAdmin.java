@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 import service.BookingManagmentService;
-import spring.web.test.Tester;
+import test.Tester;
 
 @SpringBootApplication
-@ComponentScan(basePackages={"controller", "config", "core", "manager"})
+@ComponentScan(basePackages={"controller", "config", "core", "manager", "test"})
 public class SpringAdmin {
 	
 	/*@Autowired
@@ -19,14 +19,17 @@ public class SpringAdmin {
 	*/
 	@Autowired
 	private BookingManagmentService service;
+	@Autowired
+	private Tester tester;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
-		//new Tester();
+		
 	}
 	
 	@PostConstruct
 	private void serviceStart() {
 		//service.start();
+		//tester.test();
 	}
 }

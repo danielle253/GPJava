@@ -73,7 +73,7 @@
 		var bookingRef = $(element).find('td').eq(0).text();
 
 		$.ajax({url: "booking_details",
-			data:{bookingRef: bookingRef},
+			data:{ref: 0, bookingRef: bookingRef},
 			success: function(result){
    				$(".content-container").html(result);
 			}

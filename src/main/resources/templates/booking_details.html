@@ -1,66 +1,73 @@
 <table>
+	<th:block th:if="${booking != null}">
+		<tr>
+			<td>Booking Ref:</td>
+			<td th:text="${booking.key}" id="bookingRef"></td>
+		</tr>
 
-	<tr>
-		<td>Booking Ref:</td>
-		<td th:text="${booking.key}" id="bookingRef"></td>
-	</tr>
-
-	<tr onclick="">
-		<td>User Ref:</td>
-		<td th:text="${booking.userID}" id="userRef"></td>
-	</tr>
-
-	<th:block th:if="${booking.carID != null}">
 		<tr onclick="">
-			<td>Car Ref:</td>
-			<td th:text="${booking.carID}" id="carRef"></td>
+			<td>User Ref:</td>
+			<td th:text="${booking.userID}" id="userRef"></td>
 		</tr>
-	<th:block>
 
-	<th:block th:if="${booking.sourceAddress != null}">
+		<th:block th:if="${booking.carID != null}">
+			<tr onclick="">
+				<td>Car Ref:</td>
+				<td th:text="${booking.carID}" id="carRef"></td>
+			</tr>
+		<th:block>
+
+		<th:block th:if="${booking.sourceAddress != null}">
+			<tr>
+				<td>Source Address:</td>
+				<td th:text="${booking.sourceAddress}"></td>
+			</tr>
+		<th:block>
+
+		<th:block th:if="${booking.destinationAddress != null}">
+			<tr>
+				<td>Destination Address:</td>
+				<td th:text="${booking.destinationAddress}"></td>
+			</tr>
+		</th:block>
+
+		<th:block th:if="${booking.duration != null}"> 
+			<tr>
+				<td>Duration to the point:</td>
+				<td th:text="${booking.duration.humanReadable}"></td>
+			</tr>
+		</th:block>
+
+		<th:block th:if="${booking.distance != null}"> 
+			<tr>
+				<td>Distance(meters):</td>
+				<td  th:text="${booking.distance.humanReadable}"></td>
+			</tr>
+		</th:block>
+
 		<tr>
-			<td>Source Address:</td>
-			<td th:text="${booking.sourceAddress}"></td>
+			<td>Stage:</td>
+			<td th:text="${booking.stage}"></td>
 		</tr>
-	<th:block>
 
-	<th:block th:if="${booking.destinationAddress != null}">
+		<th:block th:if="${booking.state != null}">
+			<tr>
+				<td>State:</td>
+				<td th:text="${booking.state}"></td>
+			</tr>
+		</th:block>
+
 		<tr>
-			<td>Destination Address:</td>
-			<td th:text="${booking.destinationAddress}"></td>
+			<td>Notification Sent:</td>
+			<td th:text="${booking.notificationSent != null} ? ${booking.notificationSent} : 'false'"></td>
 		</tr>
 	</th:block>
 
-	<th:block th:if="${booking.duration != null}"> 
+	<th:block th:unless="${booking != null}">
 		<tr>
-			<td>Duration to the point:</td>
-			<td th:text="${booking.duration.humanReadable}"></td>
+			<td>None</td>
 		</tr>
 	</th:block>
-
-	<th:block th:if="${booking.distance != null}"> 
-		<tr>
-			<td>Distance(meters):</td>
-			<td  th:text="${booking.distance.humanReadable}"></td>
-		</tr>
-	</th:block>
-
-	<tr>
-		<td>Stage:</td>
-		<td th:text="${booking.stage}"></td>
-	</tr>
-
-	<th:block th:if="${booking.state != null}">
-		<tr>
-			<td>State:</td>
-			<td th:text="${booking.state}"></td>
-		</tr>
-	</th:block>
-
-	<tr>
-		<td>Notification Sent:</td>
-		<td th:text="${booking.notificationSent != null} ? ${booking.notificationSent} : 'false'"></td>
-	</tr>
 
 	<tr>
 		</br>
@@ -104,11 +111,6 @@
 	}
 
 	function refresh(){
-		$.ajax({url: "booking_details",
-			data:{bookingRef: $("#bookingRef").text()},
-			success: function(result){
-   				$(".content-container").html(result);
-			}
-    	});
+		location.reload();
 	}
 </script>

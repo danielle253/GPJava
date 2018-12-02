@@ -7,12 +7,41 @@
 	<tr >
 		<td><input type="button" onclick="registerate_acc()" value="Registrate"></td>
 		<td><input type="button" onclick="delete_acc()" value="Delete"></td>
+		<td><input type="button" onclick="suspend()" value="Suspend"></td>
+		<td><input type="button" onclick="unsuspend()" value="Unsuspend"></td>
 		<td><input type="button" onclick="refresh()" value="Refresh"></td>
 	</tr>
 </table>
 
 <!--<script type="text/javascript" th:src="@{/js/accounts_management.js}"></script>-->
 <script type="text/javascript">
+
+	function unsuspend(){
+		if($(".focused").length){
+			$.ajax({url: "/rest/user_unsuspend",
+				data:{uid: $(".focused").find('td').eq(0).text()},
+				success: function(result){
+       				refresh();
+    			}
+    		});
+		} else {
+			alert("No User Selected");
+		}
+	}
+
+	function suspend(){
+		if($(".focused").length){
+			$.ajax({url: "/rest/user_suspend",
+				data:{uid: $(".focused").find('td').eq(0).text()},
+				success: function(result){
+       				refresh();
+    			}
+    		});
+		} else {
+			alert("No User Selected");
+		}
+	}
+
 
 	function registerate_acc(){
 		$.ajax({url: "registration",
@@ -24,7 +53,8 @@
 
 	function delete_acc(){
 		if($(".focused").length){
-			$.ajax({url: "/rest/deleteUserAccount?uid=" + $(".focused").find('td').eq(0).text(),
+			$.ajax({url: "/rest/user_delete",
+				data:{uid: $(".focused").find('td').eq(0).text()},
 				success: function(result){
        				refresh();
     			}

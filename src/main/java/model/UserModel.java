@@ -1,21 +1,27 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserModel extends Entity{
 		
 		private String email;
 		private double balance;
-		private ArrayList<String> bookings;
+		private List<String> bookingInProgress;
+		private List<String> bookingHistory;
 		private boolean active;
 		private String token;
 		
-		private UserModel () {}
+		private UserModel () {
+			setBookingInProgress(new ArrayList<String>());
+			setBookingHistory(new ArrayList<String>());
+		}
 		
-		public UserModel(String email, ArrayList<String> bookings, double balance, boolean active) {
+		public UserModel(String email, double balance, boolean active) {
 			this.email = email;
 			this.balance = balance;
-			this.bookings = bookings;
+			setBookingInProgress(new ArrayList<String>());
+			setBookingHistory(new ArrayList<String>());
 			this.active = active;
 		}
 
@@ -51,11 +57,19 @@ public class UserModel extends Entity{
 			this.balance = balance;
 		}
 
-		public ArrayList<String> getBookings() {
-			return bookings;
+		public List<String> getBookingHistory() {
+			return bookingHistory;
 		}
 
-		public void setBookings(ArrayList<String> bookings) {
-			this.bookings = bookings;
+		public void setBookingHistory(List<String> bookingHistory) {
+			this.bookingHistory = bookingHistory;
+		}
+
+		public List<String> getBookingInProgress() {
+			return bookingInProgress;
+		}
+
+		public void setBookingInProgress(List<String> bookingInProgress) {
+			this.bookingInProgress = bookingInProgress;
 		}
 }

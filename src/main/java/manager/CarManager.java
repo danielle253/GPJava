@@ -1,5 +1,8 @@
 package manager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,21 +37,21 @@ public class CarManager {
 	
 	public static void suspend(Car car) {
 		car.setSuspended(true);
-		
-		/*if(car.getBookingID() != null ) {
-			Booking booking = repository.getObject(FirebaseRepository.BOOKING_REF, car.getBookingID());
-			if(!booking.getStage().equals("IN_PROGRESS")) {
-				NotificationManager.sendPushMessage(booking, NotificationManager.CAR_SUSPEND_TEXT);
-				BookingManager.unsuspend(booking);
-			} else 
-				return;
-		}*/
-		
 		repository.set(FirebaseRepository.CARS_REF + "/" + car.getKey(), car);
 	}
 	
 	public static void unsuspend(Car car) {
 		car.setSuspended(false);
 		repository.set(FirebaseRepository.CARS_REF + "/" + car.getKey(), car);
+	}
+	
+	public static void freeCar(String carID) {
+		if(carID != null) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("available", true);
+			map.put("bookingID", null);
+
+			repository.update(FirebaseRepository.CARS_REF + "/"+ carID, map);
+		}
 	}
 }

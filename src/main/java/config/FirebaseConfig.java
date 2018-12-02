@@ -22,6 +22,7 @@ import repository.Repository;
 import service.BookingManagmentService;
 import service.FirebaseAuthenticationService;
 import service.FirebaseUserDetailsService;
+import test.Tester;
 
 @Configuration
 public class FirebaseConfig {
@@ -50,6 +51,11 @@ public class FirebaseConfig {
 		} catch (Throwable e) {
 			System.out.println(e);
 		}
+	}
+	
+	@Bean
+	public Tester tester() {
+		return new Tester();
 	}
 	
 	@Bean

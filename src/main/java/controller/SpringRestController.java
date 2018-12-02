@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import manager.BookingManager;
 import manager.CarManager;
+import manager.UserManager;
 import model.Car;
 import repository.FirebaseRepository;
 import repository.Repository;
@@ -35,12 +36,6 @@ public class SpringRestController {
 			@RequestParam("username") String username) {
 		repository.delete(ref, username);
 		return username;
-	}
-	
-	@RequestMapping(path="deleteUserAccount")
-	public boolean deleteUser(@RequestParam("uid") String uid) {
-		authService.deleteUser(uid);
-		return true;
 	}
 	
 	@RequestMapping(path="getUser")
@@ -93,5 +88,27 @@ public class SpringRestController {
 	public void carDelete(@RequestParam("carRef") String carRef) {
 		CarManager.delete(carRef);
 	}
+	
+	@RequestMapping(path="user_delete")
+	public void userDelete(@RequestParam("uid") String uid) {
+		UserManager.delete(repository.getObject(FirebaseRepository.USERS_REF, uid));
+	}
+	
+	@RequestMapping(path="user_suspend")
+	public void userSuspend(@RequestParam("uid") String uid) {
+		UserManager.suspend(repository.getObject(FirebaseRepository.USERS_REF, uid));
+	}
+	
+	@RequestMapping(path="user_unsuspend")
+	public void userUnsuspend(@RequestParam("uid") String uid) {
+		UserManager.unsuspend(repository.getObject(FirebaseRepository.USERS_REF, uid));
+	}
+	
+	@RequestMapping(path="user_new")
+	public void userNew(@RequestParam("email") String email, @RequestParam("password") String password) {
+		UserManager.addNew(email, password);
+	}
+	
+	
 	
 }

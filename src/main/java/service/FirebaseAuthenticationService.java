@@ -51,7 +51,7 @@ public class FirebaseAuthenticationService implements AuthenticationService{
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             	if (!dataSnapshot.hasChild(uid))     
-                    ref.child(uid).setValueAsync(new UserModel(email, new ArrayList<String>(), 0.0, !userRecord.isDisabled()));
+                    ref.child(uid).setValueAsync(new UserModel(email, 0.0, !userRecord.isDisabled()));
             }
 
             @Override

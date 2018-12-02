@@ -24,7 +24,9 @@ function accounts(){
     switchContent('accounts');
 }
 
-function bookings(){}
+function bookings(){
+    switchContent('bookings');
+}
 function messages(){}
 function settings(){}
 function logs(){}
