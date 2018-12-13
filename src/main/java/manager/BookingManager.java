@@ -33,10 +33,10 @@ public class BookingManager {
 
 	@Autowired
 	private GeoApiContext contextWired;
-	
+
 	private static Repository repository;
 	private static GeoApiContext context;
-	
+
 	@PostConstruct     
 	private void initStaticFields () {
 		repository = repositoryWired;
@@ -46,28 +46,33 @@ public class BookingManager {
 	private static final String ref = FirebaseRepository.BOOKING_REF + "/";
 
 	public static void booking(String source, String destination, String userRef) {
-		try {
-			GeocodingResult sourceResult = GeocodingApi.newRequest(context).address(source).await()[0];
-			GeocodingResult destinationResult = GeocodingApi.newRequest(context).address(destination).await()[0];
-			
-			Booking booking = new Booking(
-					new Coordinate(sourceResult.geometry.location), 
+		UserModel user = repository.getObject(FirebaseRepository.USERS_REF, userRef);
+		if(user != null) {
+			try {
+				GeocodingResult sourceResult = GeocodingApi.newRequest(context).address(source).await()[0];
+				GeocodingResult destinationResult = GeocodingApi.newRequest(context).address(destination).await()[0];
+
+				Booking booking = new Booking(
+						new Coordinate(sourceResult.geometry.location), 
 						new Coordinate(destinationResult.geometry.location), userRef);
-			
-			UserModel user = repository.getObject(FirebaseRepository.USERS_REF, userRef);
-			user.getBookingInProgress().add(booking.getKey());
-			
-			booking.setStage("SUSPENDED");
-			repository.set(ref, booking);
-			repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
-		} catch (ApiException | InterruptedException | IOException e) {
-			e.printStackTrace();
+
+				setFormatedAddress(booking);
+				booking.setStage("SUSPENDED");
+				
+				user.getBookingInProgress().add(
+						repository.push(ref, booking));
+				
+				repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
+			} catch (ApiException | InterruptedException | IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public static void suspend(Booking booking) {
 		CarManager.freeCar(booking.getCarID());
 		booking.setStage("SUSPENDED");
+		booking.setState(null);
 		repository.set(ref + booking.getKey(), booking);
 	}
 
@@ -156,17 +161,17 @@ public class BookingManager {
 	public static void log(Booking booking) {
 		booking.setDistance(null);
 		booking.setDuration(null);
-		
+
 		UserModel user = repository.getObject(FirebaseRepository.USERS_REF, booking.getUserID());
 		user.getBookingHistory().add(booking.getKey());
 		user.getBookingInProgress().remove(booking.getKey());
-		
+
 		CarManager.freeCar(booking.getCarID());
 		repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
 		repository.set(FirebaseRepository.BOOKING_LOG_REF + "/" + booking.getKey(), booking);
 		repository.delete(ref, booking.getKey());
 	}
-	
+
 	//Services
 	private static boolean allocateCar(Booking booking) throws ApiException, InterruptedException, IOException {
 		List<Car> cars = repository.getObjectList(FirebaseRepository.CARS_REF, Car.class);

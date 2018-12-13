@@ -12,6 +12,7 @@ import manager.SupportManager;
 import manager.UserManager;
 import model.Car;
 import model.Message;
+import model.UserModel;
 import repository.FirebaseRepository;
 import repository.Repository;
 import service.AuthenticationService;
@@ -71,6 +72,12 @@ public class SpringRestController {
 		BookingManager.abortation(repository.getObject(FirebaseRepository.BOOKING_REF, bookingRef));
 	}
 	
+	@RequestMapping(path="booking_new")
+	public void booking_new(@RequestParam("user_ref") String user_ref, @RequestParam("source") String source,
+			@RequestParam("destination") String destination) {
+		BookingManager.booking(source, destination, user_ref);
+	}
+
 	@RequestMapping(path="car_suspend")
 	public void carSuspend(@RequestParam("carRef") String carRef) {
 		CarManager.suspend(repository.getObject(FirebaseRepository.CARS_REF, carRef));
@@ -112,10 +119,8 @@ public class SpringRestController {
 	}
 	
 	@RequestMapping(path="message_new")
-	public void messageNew() {
-		Message message = new Message("user_ID_HERE", "hello");
-		message.setKey("boiKey");
-		SupportManager.updateMessage(message);
+	public void messageNew(@RequestParam("user_ref") String user_ref, @RequestParam("msg") String msg) {
+		SupportManager.newMessage(user_ref, msg);	
 	}
 	
 }

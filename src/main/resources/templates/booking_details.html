@@ -15,21 +15,17 @@
 				<td>Car Ref:</td>
 				<td th:text="${booking.carID}" id="carRef"></td>
 			</tr>
-		<th:block>
-
-		<th:block th:if="${booking.sourceAddress != null}">
-			<tr>
-				<td>Source Address:</td>
-				<td th:text="${booking.sourceAddress}"></td>
-			</tr>
-		<th:block>
-
-		<th:block th:if="${booking.destinationAddress != null}">
-			<tr>
-				<td>Destination Address:</td>
-				<td th:text="${booking.destinationAddress}"></td>
-			</tr>
 		</th:block>
+
+		<tr>
+			<td>Source Address:</td>
+			<td th:text="${booking.sourceAddress}"></td>
+		</tr>
+
+		<tr>
+			<td>Destination Address:</td>
+			<td th:text="${booking.destinationAddress}"></td>
+		</tr>
 
 		<th:block th:if="${booking.duration != null}"> 
 			<tr>
@@ -101,7 +97,7 @@
 	}
 
 	function abort(){
-		$.ajax({url: "/rest/abort",
+		$.ajax({url: "/rest/booking_abort",
 			data:{bookingRef: $("#bookingRef").text()},
 			success: function(result){
    				//refresh();

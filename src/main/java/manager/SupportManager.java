@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import model.Message;
 import model.MessageForm;
+import model.UserModel;
 import repository.FirebaseRepository;
 import repository.Repository;
 
@@ -44,5 +45,14 @@ public class SupportManager {
 				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		message.getMessages().add(new MessageForm(userDetails.getUsername(), msg));
 		repository.set(FirebaseRepository.MESSAGE_REF + "/" + key, message);
+	}
+	
+	public static void newMessage(String user_ref, String msg) {
+		Message message = new Message(user_ref, msg);
+		UserModel user = repository.getObject(FirebaseRepository.USERS_REF, user_ref);
+		user.getMessages().add(message);
+		
+		repository.push(FirebaseRepository.MESSAGE_REF, message);
+		repository.set(FirebaseRepository.USERS_REF, user);
 	}
 }

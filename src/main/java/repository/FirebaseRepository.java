@@ -83,8 +83,12 @@ public class FirebaseRepository implements Repository {
 	}
 
 	@Override
-	public <T extends Entity> void push(String reference, T obj) {
-		ref.child(reference).push().setValueAsync(obj);
+	public <T extends Entity> String push(String reference, T obj) {
+		DatabaseReference pushRef = ref.child(reference).push();
+		String key = pushRef.getKey();
+		pushRef.setValueAsync(obj);
+		
+		return key;
 	}
 
 	@Override

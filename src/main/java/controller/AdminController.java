@@ -93,6 +93,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(
+			path= "booking",
+			method= RequestMethod.GET)
+	public String newBooking() {
+		return "booking";
+	}
+	
+	@RequestMapping(
 			path= "messages",
 			method= RequestMethod.GET)
 	public String messages(Model model) {

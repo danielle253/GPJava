@@ -1,0 +1,40 @@
+<form>
+	<table>
+		<tr>
+			<td><label>User Ref*</label></td>
+			<td><input type="input" id="user_ref" name="user_ref">LXCLjAtsdqSJmmMLCrne8n0hJpX2</td>
+		</tr>
+		<tr>
+			<td><label>Source*</label></td>
+			<td><input type="input" id="source" name="source">Parchment Square Cork</td>
+		</tr>
+		<tr>
+			<td><label>Destination*</label></td>
+			<td><input type="input" id="destination" name="destination">Cork City Center</td>
+		</tr>
+		<tr>
+			<td><input type="button" name="" value="Back" onclick="back()"></td>
+			<td><input type="button" name="" value="Submit" onclick="newUser()"></td>
+		</tr>
+	</table>
+</form>
+
+
+<script type="text/javascript">
+	function newUser(){
+		var formData = $('form').serialize();
+
+		if(user_ref != null & source != null & destination != null){
+			$.ajax({
+				url: "/rest/booking_new",
+				type: 'POST',
+				data: formData, 
+				success: function(result){}
+	    	});
+		}
+	}
+
+	function back(){
+		bookings();
+	}
+</script>

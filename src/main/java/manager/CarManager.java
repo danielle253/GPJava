@@ -28,6 +28,11 @@ public class CarManager {
 	}
 
 	public static void delete(String carRef) {
+		Car car = repository.getObject(FirebaseRepository.CARS_REF, carRef);
+		
+		if(car.getBookingID() != null)
+			BookingManager.suspend(repository.getObject(FirebaseRepository.BOOKING_REF, car.getBookingID()));
+			
 		repository.delete(FirebaseRepository.CARS_REF, carRef);
 	}
 	

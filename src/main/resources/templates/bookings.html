@@ -31,11 +31,7 @@
 	
 	<tr>
 		</br>
-		</br>
-		<td><input type="button" name="suspend" value="Suspend" onclick="suspend()"></td>
-		<td><input type="button" name="unsuspend" value="Unsuspend" onclick="unsuspend()"></td>
-		<td> <input type="button" name="abort" value="Abort" onclick="abort()"></td>
-		<td> <input type="button" name="refresh" value="Refresh" onclick="refresh()"></td>
+		<td><input type="button" name="new" value="New" onclick="newBooking()"></td>
 	</tr>
 </table>
 
@@ -45,6 +41,14 @@
 
 		$.ajax({url: "booking_details",
 			data:{bookingRef: bookingRef, ref: ref},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+
+	function newBooking(){
+		$.ajax({url: "booking",
 			success: function(result){
    				$(".content-container").html(result);
 			}
