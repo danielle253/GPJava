@@ -14,7 +14,7 @@ public interface Repository {
 	
 	<T extends Entity> T getObject(String ref, String child);
 	void add(String ref, String child, Object obj);
-	<T extends Entity> List<T> getObjectList(String ref, Class<T> c);
+	<T extends Entity> List<T> getObjectList(String ref);
 	void delete(String reference, String child);
 
 	<T extends Entity> String push(String reference, T obj);

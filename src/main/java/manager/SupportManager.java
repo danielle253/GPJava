@@ -31,7 +31,7 @@ public class SupportManager {
 	private static final String ref = FirebaseRepository.MESSAGE_REF + "/";
 
 	public static List<Message> getMessagesList() {
-		List<Message> list = repository.getObjectList(ref, Message.class);
+		List<Message> list = repository.getObjectList(ref);
 		return list;
 	}
 	

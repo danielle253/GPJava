@@ -1,0 +1,58 @@
+<table>
+	<tr>
+		<th>Booking Ref</th>
+		<th>User Ref</th>
+		<th>Stage</th>
+		<th>State</th>
+	</tr>
+	<tr>
+		<td>In Progress</td>
+	</tr>
+	<th:block th:if="${bookingInProgress != null}" th:each="booking : ${bookingInProgress}">
+		<tr onclick="bookingDetails(0, this)">
+			<td th:text="${booking.key}" id="bookingRef"></td>
+			<td th:text="${booking.userID}" id="userRef"></td>
+			<td th:text="${booking.stage}" id="userRef"></td>
+			<td th:text="${booking.state != null} ? ${booking.state}: 'Null'" id="userRef"></td>
+		</tr>
+	</th:block>
+
+	<tr>
+		<td>History</td>
+	</tr>
+	<th:block th:if="${bookingHistory != null}" th:each="booking : ${bookingHistory}">
+		<tr onclick="bookingDetails(1, this)">
+			<td th:text="${booking.key}" id="bookingRef"></td>
+			<td th:text="${booking.userID}"></td>
+			<td th:text="${booking.stage}"></td>
+			<td th:text="${booking.state}"></td>
+		</tr>
+	</th:block>
+	
+	<tr>
+		</br>
+		<td><input type="button" name="new" value="New" onclick="newBooking()"></td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	function bookingDetails(ref, element){
+		var bookingRef = $(element).find('td').eq(0).text();
+
+		$.ajax({url: "booking_details",
+			data:{bookingRef: bookingRef, ref: ref},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+
+	function newBooking(){
+		$.ajax({url: "booking",
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+
+</script>

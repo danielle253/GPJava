@@ -36,7 +36,7 @@ public class BookingManagmentService extends Thread{
 	}
 
 	private void bookingScan() {
-		List<Booking> bookings = repository.getObjectList(FirebaseRepository.BOOKING_REF, Booking.class);
+		List<Booking> bookings = repository.getObjectList(FirebaseRepository.BOOKING_REF);
 		BookingManager.updateDistanceDuration(bookings);
 
 		bookings.forEach(booking -> {

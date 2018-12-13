@@ -54,9 +54,7 @@ public class AdminController {
 			path= "table_accounts",
 			method= RequestMethod.GET)
 	public String table_accounts(Model model) {
-		List list = repository.getObjectList(
-				FirebaseRepository.USERS_REF, UserModel.class);
-		
+		List list = repository.getObjectList(FirebaseRepository.USERS_REF);
 		model.addAttribute("users", list);
 		
 		return "table_accounts";
@@ -67,7 +65,7 @@ public class AdminController {
 			method= RequestMethod.GET)
 	public String map(Model model) {
 		model.addAttribute("cars", repository.getObjectList(
-				FirebaseRepository.CARS_REF, Car.class));
+				FirebaseRepository.CARS_REF));
 		return "map";
 	}
 	
@@ -87,8 +85,8 @@ public class AdminController {
 			path= "bookings",
 			method= RequestMethod.GET)
 	public String bookings(Model model) {
-		model.addAttribute("bookingInProgress", repository.getObjectList(FirebaseRepository.BOOKING_REF, Booking.class));
-		model.addAttribute("bookingHistory", repository.getObjectList(FirebaseRepository.BOOKING_LOG_REF, Booking.class));
+		model.addAttribute("bookingInProgress", repository.getObjectList(FirebaseRepository.BOOKING_REF));
+		model.addAttribute("bookingHistory", repository.getObjectList(FirebaseRepository.BOOKING_LOG_REF));
 		return "bookings";
 	}
 	

@@ -1,0 +1,54 @@
+<table>
+	<tr>
+		<th>Booking Ref</th>
+		<th>User Ref</th>
+		<th>Stage</th>
+		<th>State</th>
+	</tr>
+	<tr>
+		<td>In Progress</td>
+	</tr>
+	<th:block th:if="${bookingInProgress != null}">
+		<tr onclick="bookingDetails(0, this)">
+			<td th:text="${bookingInProgress.key}" id="bookingRef"></td>
+			<td th:text="${bookingInProgress.userID}" id="userRef"></td>
+			<td th:text="${bookingInProgress.stage}" id="userRef"></td>
+			<td th:text="${bookingInProgress.state != null} ? ${bookingInProgress.state}: 'Null'" id="userRef"></td>
+		</tr>
+	</th:block>
+
+	<tr>
+		<td>History</td>
+	</tr>
+	<th:block th:if="${bookingHistory != null}">
+		<tr onclick="bookingDetails(1, this)">
+			<td th:text="${bookingHistory.key}" id="bookingRef"></td>
+			<td th:text="${bookingHistory.userID}"></td>
+			<td th:text="${bookingHistory.stage}"></td>
+			<td th:text="${bookingHistory.state}"></td>
+		</tr>
+	</th:block>
+	
+	<tr>
+		</br>
+		</br>
+		<td><input type="button" name="suspend" value="Suspend" onclick="suspend()"></td>
+		<td><input type="button" name="unsuspend" value="Unsuspend" onclick="unsuspend()"></td>
+		<td> <input type="button" name="abort" value="Abort" onclick="abort()"></td>
+		<td> <input type="button" name="refresh" value="Refresh" onclick="refresh()"></td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+	function bookingDetails(ref, element){
+		var bookingRef = $(element).find('td').eq(0).text();
+
+		$.ajax({url: "booking_details",
+			data:{bookingRef: bookingRef, ref: ref},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+
+</script>

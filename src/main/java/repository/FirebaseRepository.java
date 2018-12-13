@@ -102,7 +102,7 @@ public class FirebaseRepository implements Repository {
 	}
 
 	@Override
-	public <T extends Entity> List<T> getObjectList(String reference, Class<T> c) {
+	public <T extends Entity> List<T> getObjectList(String reference) {
 		final Waiter waiter = new Waiter();
 
 		ref.child(reference).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -111,7 +111,7 @@ public class FirebaseRepository implements Repository {
 			public void onDataChange(DataSnapshot snapshot) {
 
 				snapshot.getChildren().forEach(i -> {
-					T item = i.getValue(c);
+					T item = (T) i.getValue(CLASS_REF.get(reference));
 					item.setKey(i.getKey());
 					waiter.getList().add(item);
 				});

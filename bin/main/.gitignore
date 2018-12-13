@@ -1,1 +1,4 @@
-/templates/
+/manager/
+/repository/
+/controller/
+/service/

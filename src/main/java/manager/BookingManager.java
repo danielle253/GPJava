@@ -174,7 +174,7 @@ public class BookingManager {
 
 	//Services
 	private static boolean allocateCar(Booking booking) throws ApiException, InterruptedException, IOException {
-		List<Car> cars = repository.getObjectList(FirebaseRepository.CARS_REF, Car.class);
+		List<Car> cars = repository.getObjectList(FirebaseRepository.CARS_REF);
 
 		Car allocatedCar = null;
 		DistanceMatrixElement allocatedResult = null;
