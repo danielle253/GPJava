@@ -1,0 +1,80 @@
+
+<div id="chatbox"></div>
+	<div>
+		<table>	
+			<tr>
+				<th>Date</th>
+				<th>Sender</th>
+				<th>Message</th>
+			</tr>
+			<tr>
+				<td th:text="${message.key}" id="message_ref" class="hidden"></td>
+			</tr>
+			<th:block th:each="messageForm : ${message.messages}">
+				<tr>
+					<td th:text="${messageForm.date}"></td>
+					<td th:text="${messageForm.sender}"></td>
+					<td th:text="${messageForm.message}"></td>
+				</tr>
+			</th>
+		</table>
+	</div>
+	<div>
+		<input name="usermsg" type="text" id="usermsg" size="63" />
+        <input name="submitmsg" type="button"  id="submitmsg" value="Send" onclick="sendMessage()" />
+	</div>    
+</div>
+
+<script type="text/javascript">
+	
+	function sendMessage(){
+		var msg = $("#usermsg").val();
+		var messageRef = $('#message_ref').eq(0).text();
+
+		$.ajax({url: "send_msg",
+			data:{ref: messageRef, msg: msg},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+</script>
+<!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
+<script type="text/javascript">
+// jQuery Document
+$(document).ready(function(){
+
+});-->
+
+		<!--
+		<th:block th:if="${message != null}">
+		<tr>
+			<td>User ID</td>
+			<td th:text="${message.key}" id="user_ref"></td>
+		</tr>
+
+		<th:block th:if="${message.date != null}">
+			<tr onclick="">
+				<td>Date</td>
+				<td th:text="${message.date}" id="date"></td>
+			</tr>
+		<th:block>
+
+		<th:block th:if="${message.messageContent != null}">
+			<tr>
+				<td>Message Content</td>
+				<td th:text="${message.messageContent}"></td>
+			</tr>
+		<th:block>
+
+		<th:block th:if="${message.state != null}">
+			<tr>
+				<td>State</td>
+				<td th:text="${message.state}"></td>
+			</tr>
+		</th:block>
+
+		-->
+<script>
+
+</script>

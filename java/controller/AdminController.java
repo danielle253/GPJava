@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import manager.SupportManager;
 import model.Booking;
 import model.Car;
 import model.UserModel;
@@ -89,6 +90,30 @@ public class AdminController {
 		model.addAttribute("bookingInProgress", repository.getObjectList(FirebaseRepository.BOOKING_REF, Booking.class));
 		model.addAttribute("bookingHistory", repository.getObjectList(FirebaseRepository.BOOKING_LOG_REF, Booking.class));
 		return "bookings";
+	}
+	
+	@RequestMapping(
+			path= "messages",
+			method= RequestMethod.GET)
+	public String messages(Model model) {
+		model.addAttribute("messages", SupportManager.getMessagesList());
+		return "messages";
+	}
+	
+	@RequestMapping(
+			path= "message_chat",
+			method= RequestMethod.GET)
+	public String message_chat(@RequestParam("ref")String ref, Model model) {
+		model.addAttribute("message", repository.getObject(FirebaseRepository.MESSAGE_REF, ref));
+		return "message_chat";
+	}
+	
+	@RequestMapping(
+			path = "send_msg",
+			method = RequestMethod.GET)
+	public String send_message(@RequestParam("ref")String ref, @RequestParam("msg") String msg, Model model) {
+		SupportManager.writeMessage(ref, msg);
+		return message_chat(ref, model);
 	}
 }
 

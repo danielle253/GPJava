@@ -24,6 +24,7 @@ import model.Admin;
 import model.Booking;
 import model.Car;
 import model.Entity;
+import model.Message;
 import model.UserModel;
 
 public class FirebaseRepository implements Repository {
@@ -33,7 +34,8 @@ public class FirebaseRepository implements Repository {
 	CARS_REF = "CARS", 
 	ADMIN_REF = "ADMIN_USERS",
 	BOOKING_REF = "BOOKINGS",
-	BOOKING_LOG_REF = "BOOKINGS_LOG";
+	BOOKING_LOG_REF = "BOOKINGS_LOG",
+	MESSAGE_REF = "MESSAGE";
 
 	private final Map<String, Class> CLASS_REF = ImmutableMap.<String, Class>builder()
 			.put(USERS_REF, UserModel.class)
@@ -41,6 +43,7 @@ public class FirebaseRepository implements Repository {
 			.put(ADMIN_REF, Admin.class)
 			.put(BOOKING_REF, Booking.class)
 			.put(BOOKING_LOG_REF, Booking.class)
+			.put(MESSAGE_REF, Message.class)
 			.build();
 
 	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();

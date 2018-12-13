@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import manager.BookingManager;
 import manager.CarManager;
+import manager.SupportManager;
 import manager.UserManager;
 import model.Car;
+import model.Message;
 import repository.FirebaseRepository;
 import repository.Repository;
 import service.AuthenticationService;
@@ -109,6 +111,11 @@ public class SpringRestController {
 		UserManager.addNew(email, password);
 	}
 	
-	
+	@RequestMapping(path="message_new")
+	public void messageNew() {
+		Message message = new Message("user_ID_HERE", "hello");
+		message.setKey("boiKey");
+		SupportManager.updateMessage(message);
+	}
 	
 }

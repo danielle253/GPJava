@@ -9,12 +9,14 @@ public class UserModel extends Entity{
 		private double balance;
 		private List<String> bookingInProgress;
 		private List<String> bookingHistory;
+		private List<Message> messages;
 		private boolean active;
 		private String token;
 		
 		private UserModel () {
 			setBookingInProgress(new ArrayList<String>());
 			setBookingHistory(new ArrayList<String>());
+			setMessages(new ArrayList<Message>());
 		}
 		
 		public UserModel(String email, double balance, boolean active) {
@@ -71,5 +73,13 @@ public class UserModel extends Entity{
 
 		public void setBookingInProgress(List<String> bookingInProgress) {
 			this.bookingInProgress = bookingInProgress;
+		}
+		
+		public List<Message> getMessages() {
+			return messages;
+		}
+
+		public void setMessages(List<Message> messages) {
+			this.messages = messages;
 		}
 }

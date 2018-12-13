@@ -43,9 +43,9 @@ public class BookingManagmentService extends Thread{
 			if(booking.getStage().equals("REQUEST")) {
 				request(booking);
 			}else if(booking.getStage().equals("CONFIRMED")) {
-				//confirmed(booking);
+				confirmed(booking);
 			}else if(booking.getStage().equals("IN_PROGRESS")) {
-				//inProgress(booking);
+				inProgress(booking);
 			}
 		});
 	}

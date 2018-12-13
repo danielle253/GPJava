@@ -1,0 +1,30 @@
+<table border="1">
+	  <tr>
+	  	<th>Message_Ref</th>
+	    <th>User_Ref</th>
+	    <th>Date</th>
+		<th>State</th>
+	  </tr>
+		<th:block th:each="message : ${messages}">
+			<tr onclick="messageDetails(this)" class="item">
+				<td th:text="${message.key}" id="message_ref"></td>
+				<td th:text="${message.user_ref}" id="user_ref"></td>
+				<td th:text="${message.messages[0].date}" ></td>
+				<td th:text="${message.state}" ></td>
+			</tr>
+		<th:block>
+</table>
+
+<script type="text/javascript">
+	function messageDetails(ref, element){
+		var messageRef = $('#message_ref').eq(0).text();
+
+		$.ajax({url: "message_chat",
+			data:{ref: messageRef},
+			success: function(result){
+   				$(".content-container").html(result);
+			}
+    	});
+	}
+
+</script>

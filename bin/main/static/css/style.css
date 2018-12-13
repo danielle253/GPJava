@@ -27,7 +27,7 @@ th, td {
     border-bottom: 1px solid #ddd;
 }
 
-tr.item:hover {
+.item:hover {
 	background-color: #be2edd;
 	color:white;
 }

@@ -13,23 +13,20 @@ import test.Tester;
 @SpringBootApplication
 @ComponentScan(basePackages={"controller", "config", "core", "manager", "test"})
 public class SpringAdmin {
-	
-	/*@Autowired
-	private BookingManagmentService bookingManagmentService;
-	*/
+		
 	@Autowired
 	private BookingManagmentService service;
+	
 	@Autowired
 	private Tester tester;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringAdmin.class, args);
-		
 	}
 	
 	@PostConstruct
 	private void serviceStart() {
 		//service.start();
-		//tester.test();
+		tester.test();
 	}
 }
