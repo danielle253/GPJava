@@ -101,7 +101,7 @@ public class AdminController {
 			path= "messages",
 			method= RequestMethod.GET)
 	public String messages(Model model) {
-		model.addAttribute("messages", SupportManager.getMessagesList());
+		model.addAttribute("messages", repository.getObjectList(FirebaseRepository.MESSAGE_REF));
 		return "messages";
 	}
 	

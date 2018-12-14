@@ -30,13 +30,8 @@ public class SupportManager {
 
 	private static final String ref = FirebaseRepository.MESSAGE_REF + "/";
 
-	public static List<Message> getMessagesList() {
-		List<Message> list = repository.getObjectList(ref);
-		return list;
-	}
-	
 	public static void updateMessage(Message message) {
-		repository.set(ref + "/" + message.getKey(), message);
+		repository.set(ref + message.getKey(), message);
 	}
 
 	public static void writeMessage(String key, String msg) {
@@ -44,7 +39,7 @@ public class SupportManager {
 		UserDetails userDetails =
 				 (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		message.getMessages().add(new MessageForm(userDetails.getUsername(), msg));
-		repository.set(FirebaseRepository.MESSAGE_REF + "/" + key, message);
+		repository.set(ref + key, message);
 	}
 	
 	public static void newMessage(String user_ref, String msg) {

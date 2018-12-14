@@ -37,7 +37,10 @@ public class CarManager {
 	}
 	
 	public static void addNew() {
-		repository.push(FirebaseRepository.CARS_REF, new Car());
+		Car car = new Car();
+		car.setSuspended(true);
+		car.setAvailable(true);
+		repository.push(FirebaseRepository.CARS_REF, car);
 	}
 	
 	public static void suspend(Car car) {

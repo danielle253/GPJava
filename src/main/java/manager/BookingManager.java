@@ -58,10 +58,10 @@ public class BookingManager {
 
 				setFormatedAddress(booking);
 				booking.setStage("SUSPENDED");
-				
+
 				user.getBookingInProgress().add(
 						repository.push(ref, booking));
-				
+
 				repository.set(FirebaseRepository.USERS_REF + "/" + user.getKey(), user);
 			} catch (ApiException | InterruptedException | IOException e) {
 				e.printStackTrace();
@@ -180,7 +180,8 @@ public class BookingManager {
 		DistanceMatrixElement allocatedResult = null;
 		long allocatedCarDistance = Long.MAX_VALUE;
 
-		for(Car car : cars) {
+
+		for(Car car : cars) 
 			if(car.isAvailable() && !car.isSuspended()) {
 				DistanceMatrixElement results = DistanceMatrixApi.newRequest(context)
 						.origins(car.getPosition().toLatLng())
@@ -193,7 +194,6 @@ public class BookingManager {
 					allocatedCarDistance = results.distance.inMeters;
 				}
 			}
-		}
 
 		if(allocatedCar != null) {
 			booking.setCarID(allocatedCar.getKey());
@@ -206,8 +206,10 @@ public class BookingManager {
 
 			repository.update(FirebaseRepository.CARS_REF + "/"
 					+ allocatedCar.getKey(), map);
+
 		} else
 			return false;
+
 
 		return true;
 	}

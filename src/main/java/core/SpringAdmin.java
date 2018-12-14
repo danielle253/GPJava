@@ -27,6 +27,6 @@ public class SpringAdmin {
 	@PostConstruct
 	private void serviceStart() {
 		service.start();
-		tester.test();
+		//tester.test();
 	}
 }
