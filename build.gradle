@@ -40,4 +40,6 @@ dependencies {
 	
     // https://mvnrepository.com/artifact/com.google.maps/google-maps-services
 	compile group: 'com.google.maps', name: 'google-maps-services', version: '0.2.11'
+	
+	compile 'com.paypal.sdk:rest-api-sdk:+'
 }

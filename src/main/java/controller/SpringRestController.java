@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import manager.BookingManager;
 import manager.CarManager;
+import manager.PaymentManager;
 import manager.SupportManager;
 import manager.UserManager;
 import model.Car;
@@ -121,6 +122,11 @@ public class SpringRestController {
 	@RequestMapping(path="message_new")
 	public void messageNew(@RequestParam("user_ref") String user_ref, @RequestParam("msg") String msg) {
 		SupportManager.newMessage(user_ref, msg);	
+	}
+	
+	@RequestMapping(path="create_invoice")
+	public void newInvoice(@RequestParam("email") String email, @RequestParam("amount") String amount) {
+		PaymentManager.sendInvoice(email, amount);
 	}
 	
 }

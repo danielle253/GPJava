@@ -1,5 +1,8 @@
-/manager/
-/repository/
+/config/
 /controller/
+/core/
+/manager/
+/model/
+/repository/
 /service/
-/templates/
+/test/
