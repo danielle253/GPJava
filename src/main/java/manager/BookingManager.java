@@ -149,7 +149,7 @@ public class BookingManager {
 	private static void updateDistanceMatrix(Coordinate destination, Booking booking) throws ApiException, InterruptedException, IOException {
 		Car car = repository.getObject(FirebaseRepository.CARS_REF, booking.getCarID());
 		DistanceMatrixElement results = DistanceMatrixApi.newRequest(context)
-				.origins(car.getPosition().toLatLng())
+				.origins(car.getLastPosition().toLatLng())
 				.destinations(destination.toLatLng())
 				.await().rows[0].elements[0];
 
@@ -184,7 +184,7 @@ public class BookingManager {
 		for(Car car : cars) 
 			if(car.isAvailable() && !car.isSuspended()) {
 				DistanceMatrixElement results = DistanceMatrixApi.newRequest(context)
-						.origins(car.getPosition().toLatLng())
+						.origins(car.getLastPosition().toLatLng())
 						.destinations(booking.getSource().toLatLng())
 						.await().rows[0].elements[0];
 

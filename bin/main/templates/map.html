@@ -15,10 +15,10 @@
 	<th:block th:each="car : ${cars}" class="item" >
 		<tr class="item" onclick="placeMarker(this)">
 			<td th:text="${car.key}" id="carRef"></td>
-			<th:block th:if="${car.position != null}">
-				<td th:text="${car.position.latitude}"></td>
-				<td th:text="${car.position.longitude}"></td>
-			</th:block>
+				<th:block th:each="pos, iterStat : ${car.position}" th:if="${iterStat.index >= iterStat.size - 1}">
+					<td th:text="${pos.latitude}"></td>
+					<td th:text="${pos.longitude}"></td>
+				</th:block>
 			<td th:text="${car.available}"></td>
 			<td th:text="${car.suspended}"></td>
 		</tr>

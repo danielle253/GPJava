@@ -6,14 +6,24 @@ public class Coordinate {
 	
 	private double latitude;
 	private double longitude;
+	private String time;
 	
 	private Coordinate() {}
 	
-	public Coordinate(double latitude, double longitude) {
+	public Coordinate(double latitude, double longitude, String time) {
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.time = time;
 	}
 	
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
 	public Coordinate(LatLng latlng) {
 		this.latitude = latlng.lat;
 		this.longitude = latlng.lng;

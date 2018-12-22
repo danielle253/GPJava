@@ -1,21 +1,23 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Car extends Entity{
-	private Coordinate position;
+	private List<Coordinate> position;
 	private String bookingID;
 	private boolean available;
 	private boolean suspended;
 
-	public Car() {suspended = false;}
-	
-	public Car(Coordinate position, String bookingID, boolean available) {
-		this.position = position;
-		this.bookingID = bookingID;
-		this.available = available;
+	public Car() {
+		position = new ArrayList<Coordinate>();
+		suspended = false;
 	}
 	
-	public Coordinate getPosition() {
-		return position;
+	public Car(String bookingID, boolean available) {
+		this();
+		this.bookingID = bookingID;
+		this.available = available;
 	}
 
 	public String getBookingID() {
@@ -26,7 +28,11 @@ public class Car extends Entity{
 		return available;
 	}
 
-	public void setPosition(Coordinate position) {
+	public List<Coordinate> getPosition() {
+		return position;
+	}
+
+	public void setPositions(List<Coordinate> position) {
 		this.position = position;
 	}
 
@@ -44,5 +50,9 @@ public class Car extends Entity{
 
 	public void setSuspended(boolean suspended) {
 		this.suspended = suspended;
+	}
+	
+	public Coordinate getLastPosition() {
+		return position.get(position.size() - 1);
 	}
 }
