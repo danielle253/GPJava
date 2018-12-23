@@ -1,16 +1,22 @@
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.util.Data;
+
 import manager.BookingManager;
 import manager.CarManager;
 import manager.PaymentManager;
 import manager.SupportManager;
 import manager.UserManager;
+import model.Alert;
 import model.Car;
 import model.Message;
 import model.UserModel;
@@ -49,7 +55,7 @@ public class SpringRestController {
 	
 	@RequestMapping(path="getCar")
 	public Car getCar(@RequestParam("carID") String carID) {
-		return repository.getObject(FirebaseRepository.CARS_REF, "Car1");
+		return repository.getObject(FirebaseRepository.CARS_REF, carID);
 	}
 	
 	@RequestMapping(path="get")
@@ -127,6 +133,13 @@ public class SpringRestController {
 	@RequestMapping(path="create_invoice")
 	public void newInvoice(@RequestParam("email") String email, @RequestParam("amount") String amount) {
 		PaymentManager.sendInvoice(email, amount);
+	}
+	
+	@RequestMapping(path="alert")
+	public void alert(@RequestParam("description") String description) {
+		Alert alert = new Alert(description,
+				new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(Calendar.getInstance().getTime()));
+		repository.push(FirebaseRepository.ALERT_REF, alert);
 	}
 	
 }

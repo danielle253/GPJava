@@ -1,0 +1,13 @@
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+    var alerts = /*[[${alerts}]]*/ [];
+    console.log(alerts);
+
+    var i;
+    for(i = 0; i < alerts.length; i++){
+    	alert(alerts[i].description);
+    }
+
+/*]]>*/
+</script>

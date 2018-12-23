@@ -109,3 +109,7 @@ h1 {
     height: 400px;
     width: 75%;
 }
+
+#alertCheck{
+	display: none;
+}

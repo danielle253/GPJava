@@ -10,7 +10,7 @@
 	<header>
 		<h2 id="welcomde" th:text="${name}">></h2>
 		<img id="car" src="img\car.png"  alt="TransportAI-Logo" width="130px" height="130px">
-
+        <div id="alertCheck"></div>
 		<h1>Transport AI<h1>
     </header>
 
@@ -32,3 +32,16 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/js/navigation.js}"></script>
 <script type="text/javascript" th:src="@{/js/table_search.js}"></script>
+<script type="text/javascript">
+
+function alertCheck(){
+    $.ajax({url: "alertcheck",
+            type: 'GET',
+            success: function(result){
+                $(document.body).append(result);
+            }
+    });
+}
+
+setInterval(alertCheck, 10000);
+</script>

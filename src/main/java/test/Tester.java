@@ -34,7 +34,7 @@ public class Tester {
 		car.getPosition().add(new Coordinate(5.000, -6.000));
 		rep.set(FirebaseRepository.CARS_REF + "/123" , car);*/
 		
-		List<Car> carList = rep.getObjectList(FirebaseRepository.CARS_REF);
-		System.out.println();
+		/*List<Car> carList = rep.getObjectList(FirebaseRepository.CARS_REF);
+		System.out.println();*/
 	}
 }

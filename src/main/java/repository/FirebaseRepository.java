@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import model.Admin;
+import model.Alert;
 import model.Booking;
 import model.Car;
 import model.Entity;
@@ -35,7 +36,8 @@ public class FirebaseRepository implements Repository {
 	ADMIN_REF = "ADMIN_USERS",
 	BOOKING_REF = "BOOKINGS",
 	BOOKING_LOG_REF = "BOOKINGS_LOG",
-	MESSAGE_REF = "MESSAGE";
+	MESSAGE_REF = "MESSAGE",
+	ALERT_REF = "ALERTS";
 
 	private final Map<String, Class> CLASS_REF = ImmutableMap.<String, Class>builder()
 			.put(USERS_REF, UserModel.class)
@@ -44,6 +46,7 @@ public class FirebaseRepository implements Repository {
 			.put(BOOKING_REF, Booking.class)
 			.put(BOOKING_LOG_REF, Booking.class)
 			.put(MESSAGE_REF, Message.class)
+			.put(ALERT_REF, Alert.class)
 			.build();
 
 	private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
